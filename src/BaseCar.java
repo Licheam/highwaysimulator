@@ -4,6 +4,7 @@ public abstract class BaseCar implements CarObservable {
     private CarTrack track;
     private final ArrayList<CarPositionObserver> positionObservers = new ArrayList<>();
     private final ArrayList<CarPassengerObserver> passengerObservers = new ArrayList<>();
+    private double speed = 0;
 
     public BaseCar(CarTrack track) {
         this.track = track;
@@ -15,6 +16,14 @@ public abstract class BaseCar implements CarObservable {
 
     public void setTrack(CarTrack track) {
         this.track = track;
+    }
+
+    public double getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(double speed) {
+        this.speed = speed;
     }
 
     @Override

@@ -1,9 +1,22 @@
 import java.util.ArrayList;
 
 public class CarStation implements CarStationObservable {
-    private CarTrack track;
+    private final String name;
+    private final CarTrack track;
     private final ArrayList<CarStationObserver> carStationObservers = new ArrayList<>();
 
+    public CarStation(CarTrack track, String name) {
+        this.track = track;
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public CarTrack getTrack() {
+        return track;
+    }
 
     @Override
     public void registerObserver(CarStationObserver carStationObserver) {
@@ -20,5 +33,10 @@ public class CarStation implements CarStationObservable {
         for (CarStationObserver carStationObserver : carStationObservers) {
             carStationObserver.updateCarStation(this);
         }
+    }
+
+    @Override
+    public String toString() {
+        return name + " Station";
     }
 }
