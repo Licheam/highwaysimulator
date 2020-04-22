@@ -1,4 +1,4 @@
-public interface CarObserable {
+public interface CarObservable {
     void registerObserver(CarPositionObserver positionObserver);
     void removeObserver(CarPositionObserver positionObserver);
     void notifyPositionObservers();
