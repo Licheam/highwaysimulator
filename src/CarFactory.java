@@ -1,10 +1,7 @@
 public class CarFactory {
 
-    public VolveCar getVolveCar(CarTrack track) {
-        return new VolveCar(track);
+    public BaseCar getCar(CarType carType, CarTrack track) {
+        return null;
     }
 
-    public IvecoCar getIvecoCar(CarTrack track) {
-        return new IvecoCar(track);
-    }
 }
