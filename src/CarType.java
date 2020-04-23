@@ -1,10 +1,3 @@
 public enum CarType {
-    /**
-     *
-     */
-    Volve,
-    /**
-     *
-     */
-    Iveco
+    Volve, Iveco
 }
