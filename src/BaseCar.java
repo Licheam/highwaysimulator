@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public abstract class BaseCar implements CarObservable {
+public abstract class BaseCar implements CarObservable, TimeObserver {
     private CarTrack track;
     private final ArrayList<CarPositionObserver> positionObservers = new ArrayList<>();
     private final ArrayList<CarPassengerObserver> passengerObservers = new ArrayList<>();
@@ -60,5 +60,9 @@ public abstract class BaseCar implements CarObservable {
         }
     }
 
+    @Override
+    public void updateTime() {
+
+    }
 }
 

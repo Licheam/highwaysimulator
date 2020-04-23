@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class CarStation implements CarStationObservable {
+public class CarStation implements CarStationObservable, TimeObserver {
     private final String name;
     private final CarTrack track;
     private final ArrayList<CarStationObserver> carStationObservers = new ArrayList<>();
@@ -38,5 +38,10 @@ public class CarStation implements CarStationObservable {
     @Override
     public String toString() {
         return name + " Station";
+    }
+
+    @Override
+    public void updateTime() {
+
     }
 }
