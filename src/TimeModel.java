@@ -14,15 +14,16 @@ public class TimeModel implements TimeObservable {
     public void reset() {}
 
     public Time getTime() {
-        return time;    }
+        return time;
+    }
 
     @Override
-    public void registerTimeObserver(TimeObserver timeObserver) {
+    public void registerObserver(TimeObserver timeObserver) {
 
     }
 
     @Override
-    public void removeTimeObserver(TimeObserver timeObserver) {
+    public void removeObserver(TimeObserver timeObserver) {
 
     }
 

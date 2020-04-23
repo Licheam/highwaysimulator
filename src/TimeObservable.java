@@ -1,5 +1,5 @@
 public interface TimeObservable {
-    void registerTimeObserver(TimeObserver timeObserver);
-    void removeTimeObserver(TimeObserver timeObserver);
+    void registerObserver(TimeObserver timeObserver);
+    void removeObserver(TimeObserver timeObserver);
     void notifyTimeObservers();
 }
