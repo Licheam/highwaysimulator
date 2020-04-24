@@ -1,52 +1,72 @@
 import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import static java.lang.Thread.sleep;
 
 public class TimeModel implements TimeObservable {
+    private static final String DEFAULT_DATE_FORMAT = "HH:mm";
+    private static final String DEFAULT_TIME = "08:30";
+    private static final long DEFAULT_SIMULATED_TIME_GAP = 60000;
+    private static final long DEFAULT_UPDATE_TIME_GAP = 1000;
+    private long startTime;
     private Time time;
-    private boolean check = true;
+    private boolean isToStop = false;
+    private volatile boolean isRunning = false;
     ArrayList<TimeObserver> timeObservers = new ArrayList<>();
 
-    public void start() {
-        //creat a default time instance
-        start(0, 0, 0);
+    @SuppressWarnings("BusyWait")
+    private void simulateTime() {
+        isRunning = true;
+        notifyTimeObservers();
+        while(!isToStop) {
+            try {
+                sleep(DEFAULT_SIMULATED_TIME_GAP);
+            } catch (Exception ignored) {}
+            time.setTime(time.getTime() + DEFAULT_UPDATE_TIME_GAP);
+            notifyTimeObservers();
+        }
+        isRunning = false;
     }
 
-    public void start(int hour, int minutes, int second) {
-        //creat a time instance by static method
-        this.time.setTime(second*1000 + minutes*60*1000 + hour*60*60*1000);
+    public void start() {
+        try {
+            start(new SimpleDateFormat(DEFAULT_DATE_FORMAT)
+                    .parse(DEFAULT_TIME)
+                    .getTime()
+            );
+        } catch(Exception ignored) {}
+    }
+
+    public void start(long time) {
+        startTime = time;
+        this.time = new Time(startTime);
+        isToStop = false;
+        simulateTime();
     }
 
     public void pause() {
-        // sleep 1 second
-        check = false;
-        getTime();
+        isToStop = true;
     }
 
-    public void restart(){
-        check = true;
-        getTime();
+    public void restart() {
+        reset();
+        start(startTime);
     }
 
     public void reset() {
-        // reset the time to the start
-        start();
-    }
-
-    public Time getTime() {
-        // every time System getTime, return original time+1
-        // if check is false, sleep
-        if (check){
-            time.setTime(time.getTime()+1000);
-        }else {
-            try {
-                sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        if (!isToStop) {
+            isToStop = true;
+            while (isRunning) {
+                Thread.onSpinWait();
             }
         }
-        return time;
+
+        time.setTime(startTime);
+    }
+
+    public long getTime() {
+        return time.getTime();
     }
 
     @Override
@@ -61,7 +81,7 @@ public class TimeModel implements TimeObservable {
 
     @Override
     public void notifyTimeObservers() {
-        for (TimeObserver timeObserver:timeObservers) {
+        for (TimeObserver timeObserver : timeObservers) {
             timeObserver.updateTime();
         }
     }
