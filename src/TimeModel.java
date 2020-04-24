@@ -19,6 +19,7 @@ public class TimeModel implements TimeObservable {
     }
 
     public void pause() {
+        // sleep 1 second
         check = false;
         getTime();
     }
@@ -29,6 +30,8 @@ public class TimeModel implements TimeObservable {
     }
 
     public Time getTime() {
+        // every time System getTime, return original time+1
+        // if check is false, sleep
         if (check){
             time.setTime(time.getTime()+1000);
         }else {
