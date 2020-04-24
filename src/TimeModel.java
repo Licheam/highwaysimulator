@@ -56,6 +56,8 @@ public class TimeModel implements TimeObservable {
 
     @Override
     public void notifyTimeObservers() {
-        this.timeObservers.notify();
+        for (TimeObserver timeObserver:timeObservers) {
+            timeObserver.updateTime();
+        }
     }
 }
