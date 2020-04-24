@@ -46,12 +46,12 @@ public class TimeModel implements TimeObservable {
 
     @Override
     public void registerObserver(TimeObserver timeObserver) {
-
+        this.timeObservers.add(timeObserver);
     }
 
     @Override
     public void removeObserver(TimeObserver timeObserver) {
-
+        this.timeObservers.remove(timeObserver);
     }
 
     @Override
