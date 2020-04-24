@@ -24,6 +24,11 @@ public class TimeModel implements TimeObservable {
         getTime();
     }
 
+    public void restart(){
+        check = true;
+        getTime();
+    }
+
     public void reset() {
         // reset the time to the start
         start();
