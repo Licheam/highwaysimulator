@@ -1,3 +1,5 @@
+package model.highway;
+
 public class CarFactory {
     private int countingVolve = 0;
     private int countingIveco = 0;

@@ -1,3 +1,5 @@
+package model.highway;
+
 public interface CarStationObservable {
     void registerObserver(CarStationObserver carStationObserver);
     void removeObserver(CarStationObserver carStationObserver);

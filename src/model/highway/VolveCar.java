@@ -1,3 +1,5 @@
+package model.highway;
+
 public class VolveCar extends BaseCar {
     public final int ID;
     public static final double MAX_SPEED = 2.0;

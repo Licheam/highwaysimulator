@@ -1,3 +1,7 @@
+package model.highway;
+
+import model.timer.TimeObserver;
+
 import java.util.ArrayList;
 
 public abstract class BaseCar implements CarObservable, TimeObserver {
