@@ -6,20 +6,20 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class CarStation implements CarStationObservable, TimeObserver {
-    private final String name;
+public abstract class BaseCarStation implements CarStationObservable, TimeObserver {
+    private final CarFactory carFactory;
     private final CarTrack track;
+    private final CarDirection direction;
+    private final int location;
     private final ArrayList<CarStationObserver> carStationObservers = new ArrayList<>();
-    private final Queue<VolveCar> volveCars = new LinkedList<>();
-    private final Queue<IvecoCar> ivecoCars = new LinkedList<>();
+    protected final Queue<VolveCar> volveCars = new LinkedList<>();
+    protected final Queue<IvecoCar> ivecoCars = new LinkedList<>();
 
-    public CarStation(CarTrack track, String name) {
+    public BaseCarStation(CarTrack track, CarDirection direction, int location, CarFactory carFactory) {
         this.track = track;
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
+        this.direction = direction;
+        this.location = location;
+        this.carFactory = carFactory;
     }
 
     public CarTrack getTrack() {
@@ -69,11 +69,6 @@ public class CarStation implements CarStationObservable, TimeObserver {
         for (CarStationObserver carStationObserver : carStationObservers) {
             carStationObserver.updateCarStation(this);
         }
-    }
-
-    @Override
-    public String toString() {
-        return name + " Station";
     }
 
     @Override
