@@ -1,5 +1,8 @@
 package model.highway;
 
+import exception.OverDepartException;
+import exception.TimeErrorException;
+import model.timer.TimeModel;
 import model.timer.TimeObserver;
 
 import java.util.ArrayList;
@@ -7,19 +10,26 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public abstract class BaseCarStation implements CarStationObservable, TimeObserver {
-    private final CarFactory carFactory;
-    private final CarTrack track;
-    private final CarDirection direction;
-    private final int location;
-    private final ArrayList<CarStationObserver> carStationObservers = new ArrayList<>();
+
+    protected static final String DEFAULT_DATE_FORMAT = "HH:mm";
+    protected final CarFactory carFactory;
+    protected final CarTrack track;
+    protected final CarDirection direction;
+    protected final int location;
+    protected final ArrayList<CarStationObserver> carStationObservers = new ArrayList<>();
     protected final Queue<VolveCar> volveCars = new LinkedList<>();
     protected final Queue<IvecoCar> ivecoCars = new LinkedList<>();
+    protected TimeModel timeModel;
+    protected long currentTime;
 
-    public BaseCarStation(CarTrack track, CarDirection direction, int location, CarFactory carFactory) {
+
+    public BaseCarStation(CarTrack track, CarDirection direction, int location, CarFactory carFactory, TimeModel timeModel) {
         this.track = track;
         this.direction = direction;
         this.location = location;
         this.carFactory = carFactory;
+        this.timeModel = timeModel;
+        currentTime = 0;
     }
 
     public CarTrack getTrack() {
@@ -44,15 +54,17 @@ public abstract class BaseCarStation implements CarStationObservable, TimeObserv
         }
     }
 
-    public BaseCar departCar(CarType carType) {
+    public BaseCar departCar(CarType carType) throws OverDepartException {
         if (carType == CarType.Volve) {
             return volveCars.poll();
         } else if (carType == CarType.Iveco) {
             return ivecoCars.poll();
         } else {
-            return null;
+            throw new OverDepartException();
         }
     }
+
+    protected abstract void simulateCarStation(long timeGap) throws TimeErrorException;
 
     @Override
     public void registerObserver(CarStationObserver carStationObserver) {
