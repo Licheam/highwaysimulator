@@ -77,6 +77,8 @@ public class XNCarStation extends BaseCarStation {
                 }
             }
         }
+
+        currentTime += timeGap;
     }
 
     @Override

@@ -77,6 +77,8 @@ public class BJCarStation extends BaseCarStation {
                 }
             }
         }
+
+        currentTime += timeGap;
     }
 
     @Override
