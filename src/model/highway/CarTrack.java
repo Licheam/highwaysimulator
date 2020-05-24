@@ -28,7 +28,6 @@ public class CarTrack implements TimeObserver {
         } else {
             for (CarPackage car : cars) {
                 if (car.isPullingOff) {
-
                 } else {
 
                 }
