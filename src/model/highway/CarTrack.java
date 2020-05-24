@@ -1,6 +1,8 @@
 package model.highway;
 
-import exception.TimeErrorException;
+import cars.BaseCar;
+import enumerates.CarDirection;
+import exceptions.TimeErrorException;
 import model.timer.TimeModel;
 import model.timer.TimeObserver;
 

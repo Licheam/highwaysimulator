@@ -1,4 +1,4 @@
-package model.highway;
+package enumerates;
 
 public enum CarDirection {
     Forward, Backward

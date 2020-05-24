@@ -1,12 +1,17 @@
-package model.highway;
+package stations;
 
-import exception.OverDepartException;
-import exception.TimeErrorException;
+import cars.IvecoCar;
+import cars.VolveCar;
+import enumerates.CarDirection;
+import enumerates.CarType;
+import exceptions.OverDepartException;
+import exceptions.TimeErrorException;
+import model.highway.CarTrack;
 import model.timer.TimeModel;
 
 import java.text.SimpleDateFormat;
 
-public class XNCarStation extends BaseCarStation {
+public class BJCarStation extends BaseCarStation {
 
     private static final int DEFAULT_NUMBER_OF_VOLVE = 5;
     private static final int DEFAULT_NUMBER_OF_IVECO = 12;
@@ -22,7 +27,7 @@ public class XNCarStation extends BaseCarStation {
     private static final long DEFAULT_TIME_GAP_OF_IVECO = 12000000;
 
 
-    public XNCarStation(CarTrack track, CarDirection direction,
+    public BJCarStation(CarTrack track, CarDirection direction,
                         int location, CarFactory carFactory, TimeModel timeModel) {
         super(track, direction, location, carFactory, timeModel);
         for (int i = 1; i <= DEFAULT_NUMBER_OF_VOLVE; i++) {

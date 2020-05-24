@@ -1,7 +1,13 @@
-package model.highway;
+package stations;
 
-import exception.OverDepartException;
-import exception.TimeErrorException;
+import cars.BaseCar;
+import cars.IvecoCar;
+import cars.VolveCar;
+import enumerates.CarDirection;
+import enumerates.CarType;
+import exceptions.OverDepartException;
+import exceptions.TimeErrorException;
+import model.highway.CarTrack;
 import model.timer.TimeModel;
 import model.timer.TimeObserver;
 

@@ -1,4 +1,6 @@
-package model.highway;
+package cars;
+
+import model.highway.CarTrack;
 
 public class IvecoCar extends BaseCar {
     public final int ID;

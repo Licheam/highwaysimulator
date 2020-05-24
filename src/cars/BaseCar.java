@@ -1,6 +1,9 @@
-package model.highway;
+package cars;
 
+import model.highway.CarPositionObserver;
+import model.highway.CarTrack;
 import model.timer.TimeObserver;
+import passengers.CarPassengerObserver;
 
 import java.util.ArrayList;
 

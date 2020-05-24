@@ -1,4 +1,4 @@
-package model.highway;
+package stations;
 
 public interface CarStationObserver {
     void updateCarStation(BaseCarStation carStation);
