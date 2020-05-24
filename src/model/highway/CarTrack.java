@@ -38,10 +38,13 @@ public class CarTrack implements TimeObserver {
 
     @Override
     public void updateTime() {
+        long updatedTime = timeModel.getTime();
         try {
-            simulateCars(timeModel.getTime() - currentTime);
+            simulateCars(updatedTime - currentTime);
         } catch (TimeErrorException e) {
             e.printStackTrace();
+        } finally {
+            currentTime = updatedTime;
         }
     }
 }
