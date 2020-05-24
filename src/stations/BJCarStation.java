@@ -90,10 +90,13 @@ public class BJCarStation extends BaseCarStation {
     public void updateTime() {
         super.updateTime();
 
+        long updatedTime = timeModel.getTime();
         try {
-            simulateCarStation(timeModel.getTime() - currentTime);
+            simulateCarStation(updatedTime - currentTime);
         } catch (TimeErrorException e) {
             e.printStackTrace();
+        } finally {
+            currentTime = updatedTime;
         }
     }
 }
