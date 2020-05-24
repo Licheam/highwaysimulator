@@ -13,6 +13,10 @@ public abstract class BaseCar implements CarObservable, TimeObserver {
     private final ArrayList<CarPassengerObserver> passengerObservers = new ArrayList<>();
     private double speed = 0;
 
+    public abstract double getMaxSpeed();
+    public abstract int getMaxPassengers();
+    public abstract long getPullOffTime();
+
     public BaseCar(CarTrack track) {
         this.track = track;
     }
