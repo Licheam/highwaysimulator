@@ -51,13 +51,13 @@ class CarPackage {
     public CarDirection direction;
     public int location;
     public boolean isPullingOff;
-    public long pullingTime;
+    public long pullingOffTime;
 
     public CarPackage(BaseCar car, CarDirection direction, int location) {
         this.car = car;
         this.direction = direction;
         this.location = location;
         isPullingOff = false;
-        pullingTime = 0;
+        pullingOffTime = 0;
     }
 }
