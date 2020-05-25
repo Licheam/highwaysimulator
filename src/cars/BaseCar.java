@@ -12,12 +12,24 @@ public abstract class BaseCar implements CarObservable, TimeObserver {
     private CarTrack track;
     private final ArrayList<CarPositionObserver> positionObservers = new ArrayList<>();
     private final ArrayList<CarPassengerObserver> passengerObservers = new ArrayList<>();
+    private final ArrayList<CarInStationObserver> inStationObservers = new ArrayList<>();
     private double speed = 0;
     private String currentLocation;
 
-    public abstract double getMaxSpeed();
-    public abstract int getMaxPassengers();
-    public abstract long getPullOffTime();
+    protected static double MAX_SPEED;
+    protected static int MAX_PASSENGERS;
+    protected static long PULL_OFF_TIME;
+
+    public final double getMaxSpeed() {
+        return MAX_SPEED;
+    }
+
+    public final int getMaxPassengers() {
+        return MAX_PASSENGERS;
+    }
+    public final long getPullOffTime() {
+        return  PULL_OFF_TIME;
+    }
 
     public BaseCar(CarTrack track) {
         this.track = track;
@@ -82,22 +94,24 @@ public abstract class BaseCar implements CarObservable, TimeObserver {
     }
 
     @Override
-    public void updateTime() {
-
+    public void registerObserver(CarInStationObserver inStationObserver) {
+        inStationObservers.add(inStationObserver);
     }
 
     @Override
-    public void registerObserver(CarInStationObserver carInStationObserver) {
-
-    }
-
-    @Override
-    public void removeObserver(CarInStationObserver carInStationObserver) {
-
+    public void removeObserver(CarInStationObserver inStationObserver) {
+        inStationObservers.remove(inStationObserver);
     }
 
     @Override
     public void notifyCarInStationObservers() {
+        for (CarInStationObserver inStationObserver : inStationObservers) {
+            inStationObserver.updateCarInStation(this);
+        }
+    }
+
+    @Override
+    public void updateTime() {
 
     }
 }
