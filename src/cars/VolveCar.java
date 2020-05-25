@@ -27,4 +27,4 @@ public class VolveCar extends BaseCar {
     public long getPullOffTime() {
         return PULL_OFF_TIME;
     }
-}
+

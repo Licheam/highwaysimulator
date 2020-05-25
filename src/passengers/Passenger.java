@@ -5,11 +5,11 @@ import cars.BaseCar;
 import java.util.Random;
 
 public class Passenger implements CarInStationObserver {
-    private String bordingStation;
+    private String boardingStation;
     private String GetOffStation;
-    private double randomGap = 16.67;
+    private final double randomGap = 16.67;
     public Passenger(String boardingStation) {
-        this.bordingStation = boardingStation;
+        this.boardingStation = boardingStation;
         Random r = new Random();
         double random = r.nextDouble() * 100;
         if (random < randomGap){
@@ -23,7 +23,7 @@ public class Passenger implements CarInStationObserver {
         }else if (random < randomGap*5){
             GetOffStation = "XY";
         }else if (random < randomGap*6){
-            if ("BJ".equals(boardingStation)){
+            if ("BJ".equals(this.boardingStation)){
                 GetOffStation = "XN";
             }else {
                 GetOffStation = "BJ";
@@ -33,6 +33,8 @@ public class Passenger implements CarInStationObserver {
 
     @Override
     public void updateCarInStation(BaseCar car) {
-
+        if (car.getLocation().equals(GetOffStation)){
+            car.
+        }
     }
 }
