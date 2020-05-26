@@ -36,7 +36,7 @@ public class Passenger implements CarInStationObserver {
     @Override
     public void updateCarInStation(BaseCar car) {
         if (car.getLocation().equals(getOffStation)) {
-            car.
+            car.removeObserver(this);
         }
     }
 }
