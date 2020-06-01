@@ -35,6 +35,7 @@ public abstract class BaseCarStation implements CarStationObservable, TimeObserv
         this.location = location;
         this.carFactory = carFactory;
         this.timeModel = timeModel;
+        track.addStation(this.toString(), location);
         currentTime = 0;
     }
 
@@ -87,10 +88,5 @@ public abstract class BaseCarStation implements CarStationObservable, TimeObserv
         for (CarStationObserver carStationObserver : carStationObservers) {
             carStationObserver.updateCarStation(this);
         }
-    }
-
-    @Override
-    public void updateTime() {
-
     }
 }

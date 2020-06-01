@@ -88,8 +88,6 @@ public class BJCarStation extends BaseCarStation {
 
     @Override
     public void updateTime() {
-        super.updateTime();
-
         long updatedTime = timeModel.getTime();
         try {
             simulateCarStation(updatedTime - currentTime);
@@ -98,5 +96,10 @@ public class BJCarStation extends BaseCarStation {
         } finally {
             currentTime = updatedTime;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "BJ";
     }
 }

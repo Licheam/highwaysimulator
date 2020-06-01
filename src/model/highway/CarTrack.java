@@ -10,34 +10,52 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * CarTrack is to present a highway in our simulation.
+ *
+ * It contains packed cars with location etc., and the stations information.
+ * It also preform the simulation of cars.
+ * It fetches the time from TimeModel.
+ */
 public class CarTrack implements TimeObserver {
     private final TimeModel timeModel;
     private final ArrayList<CarPackage> cars = new ArrayList<>();
     private long currentTime;
-    private final static int DISTANCE_BJ = 0;
-    private final static int DISTANCE_CP = 24;
-    private final static int DISTANCE_GZ = 45;
-    private final static int DISTANCE_WG = 107;
-    private final static int DISTANCE_XP = 128;
-    private final static int DISTANCE_XY = 152;
-    private final static int DISTANCE_XN = 174;
-    private final Map<Integer, String> stationDistance = new TreeMap<>(){{
-        stationDistance.put(DISTANCE_BJ, "BJ");
-        stationDistance.put(DISTANCE_GZ, "GZ");
-        stationDistance.put(DISTANCE_CP, "CP");
-        stationDistance.put(DISTANCE_WG, "WG");
-        stationDistance.put(DISTANCE_XP, "XP");
-        stationDistance.put(DISTANCE_XY, "XY");
-        stationDistance.put(DISTANCE_XN, "XN");
-    }};
+    private final TreeMap<Integer, String> stationsDistributions = new TreeMap<>();
 
     CarTrack(TimeModel timeModel) {
         this.timeModel = timeModel;
         currentTime = 0;
     }
 
+    public void addStation(String stationName, int location) {
+        stationsDistributions.put(location, stationName);
+    }
+
     public void dispatchCar(BaseCar car, CarDirection direction, int location) {
         cars.add(new CarPackage(car, direction, location));
+    }
+
+    private void moveCar(CarPackage car, long timeGap) {
+        if (car.isPullingOff) {
+            if (timeGap >= car.car.getPullOffTime() - car.pullingOffTime) {
+                timeGap -= car.car.getPullOffTime() - car.pullingOffTime;
+                car.isPullingOff = false;
+                car.pullingOffTime = 0;
+                if (timeGap > 0) {
+                    moveCar(car, timeGap);
+                }
+            } else {
+                car.pullingOffTime += timeGap;
+            }
+        } else {
+            Map.Entry<Integer, String> nextStation = stationsDistributions.ceilingEntry(car.location + 1);
+            if (nextStation == null) {
+
+            } else {
+
+            }
+        }
     }
 
     private void simulateCars(long timeGap) throws TimeErrorException {
@@ -45,11 +63,7 @@ public class CarTrack implements TimeObserver {
             throw new TimeErrorException();
         } else {
             for (CarPackage car : cars) {
-                if (car.isPullingOff) {
-
-                } else {
-
-                }
+                moveCar(car, timeGap);
             }
         }
     }
@@ -67,6 +81,10 @@ public class CarTrack implements TimeObserver {
     }
 }
 
+/**
+ * A Package that includes the specific information of a car on track.
+ * Specially created for CarTrack.
+ */
 class CarPackage {
     public BaseCar car;
     public CarDirection direction;
