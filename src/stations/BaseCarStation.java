@@ -21,7 +21,8 @@ public abstract class BaseCarStation implements CarStationObservable, TimeObserv
     protected final CarFactory carFactory;
     protected final CarTrack track;
     protected final CarDirection direction;
-    protected final int location;
+    protected final double location;
+
     protected final ArrayList<CarStationObserver> carStationObservers = new ArrayList<>();
     protected final Queue<VolveCar> volveCars = new LinkedList<>();
     protected final Queue<IvecoCar> ivecoCars = new LinkedList<>();
@@ -29,14 +30,19 @@ public abstract class BaseCarStation implements CarStationObservable, TimeObserv
     protected long currentTime;
 
 
-    public BaseCarStation(CarTrack track, CarDirection direction, int location, CarFactory carFactory, TimeModel timeModel) {
+    public BaseCarStation(CarTrack track, CarDirection direction, double location, CarFactory carFactory, TimeModel timeModel) {
         this.track = track;
         this.direction = direction;
         this.location = location;
         this.carFactory = carFactory;
         this.timeModel = timeModel;
+        track.setTerminalStations(this);
         track.addStation(this.toString(), location);
         currentTime = 0;
+    }
+
+    public double getLocation() {
+        return location;
     }
 
     public CarTrack getTrack() {
@@ -59,16 +65,23 @@ public abstract class BaseCarStation implements CarStationObservable, TimeObserv
         } else if (car instanceof IvecoCar) {
             ivecoCars.offer((IvecoCar)car);
         }
+
+        notifyCarStationObservers();
     }
 
     public BaseCar departCar(CarType carType) throws OverDepartException {
+        BaseCar carToDepart;
+
         if (carType == CarType.Volve) {
-            return volveCars.poll();
+            carToDepart = volveCars.poll();
         } else if (carType == CarType.Iveco) {
-            return ivecoCars.poll();
+            carToDepart = ivecoCars.poll();
         } else {
             throw new OverDepartException();
         }
+
+        notifyCarStationObservers();
+        return carToDepart;
     }
 
     protected abstract void simulateCarStation(long timeGap) throws TimeErrorException;

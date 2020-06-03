@@ -104,9 +104,9 @@ public abstract class BaseCar implements CarObservable, TimeObserver {
     }
 
     @Override
-    public void notifyCarInStationObservers() {
+    public void notifyCarInStationObservers(String carStation) {
         for (CarInStationObserver inStationObserver : inStationObservers) {
-            inStationObserver.updateCarInStation(this);
+            inStationObserver.updateCarInStation(this, carStation);
         }
     }
 

@@ -13,5 +13,5 @@ public interface CarObservable {
     void notifyPassengerObservers();
     void registerObserver(CarInStationObserver inStationObserver);
     void removeObserver(CarInStationObserver inStationObserver);
-    void notifyCarInStationObservers();
+    void notifyCarInStationObservers(String carStation);
 }
