@@ -13,7 +13,7 @@ import java.util.TreeMap;
 
 /**
  * CarTrack is to present a highway in our simulation.
- * <p>
+ *
  * It contains packed cars with location etc., and the stations information.
  * It also preform the simulation of cars.
  * It fetches the time from TimeModel.

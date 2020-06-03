@@ -2,13 +2,12 @@ package cars;
 
 import model.highway.CarPositionObserver;
 import model.highway.CarTrack;
-import model.timer.TimeObserver;
 import passengers.CarInStationObserver;
 import passengers.CarPassengerObserver;
 
 import java.util.ArrayList;
 
-public abstract class BaseCar implements CarObservable, TimeObserver {
+public abstract class BaseCar implements CarObservable {
     private CarTrack track;
     private final ArrayList<CarPositionObserver> positionObservers = new ArrayList<>();
     private final ArrayList<CarPassengerObserver> passengerObservers = new ArrayList<>();
@@ -57,6 +56,10 @@ public abstract class BaseCar implements CarObservable, TimeObserver {
 
     public String getLocation(){
         return currentLocation;
+    }
+
+    public int getNumberOfPassengers() {
+        return passengerObservers.size();
     }
 
     @Override
@@ -108,11 +111,6 @@ public abstract class BaseCar implements CarObservable, TimeObserver {
         for (CarInStationObserver inStationObserver : inStationObservers) {
             inStationObserver.updateCarInStation(this, carStation);
         }
-    }
-
-    @Override
-    public void updateTime() {
-
     }
 }
 
