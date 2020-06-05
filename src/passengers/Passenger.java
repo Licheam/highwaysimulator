@@ -4,6 +4,12 @@ import cars.BaseCar;
 
 import java.util.Random;
 
+/**
+ * Passenger is to present the passenger in our simulation.
+ * <p>
+ * it contains two features that indicate the boarding station and station that it gets off.
+ * it's constructor calculates the station it gets off in a average probability
+ */
 public class Passenger implements CarInStationObserver {
     private String boardingStation;
     private String getOffStation;

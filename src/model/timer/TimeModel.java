@@ -6,6 +6,11 @@ import java.util.ArrayList;
 
 import static java.lang.Thread.sleep;
 
+/**
+ * TimeModel is a time unit that offer the information about time.
+ * <p>
+ * it contains a series of methods interface that handel operations of starting, pausing, reseting time.
+ */
 public class TimeModel implements TimeObservable {
     private static final String DEFAULT_DATE_FORMAT = "HH:mm";
     private static final String DEFAULT_TIME = "07:30";
@@ -21,10 +26,11 @@ public class TimeModel implements TimeObservable {
     private void simulateTime() {
         isRunning = true;
         notifyTimeObservers();
-        while(!isToStop) {
+        while (!isToStop) {
             try {
                 sleep(DEFAULT_SIMULATED_TIME_GAP);
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
             time.setTime(time.getTime() + DEFAULT_UPDATE_TIME_GAP);
             notifyTimeObservers();
         }
@@ -37,7 +43,8 @@ public class TimeModel implements TimeObservable {
                     .parse(DEFAULT_TIME)
                     .getTime()
             );
-        } catch(Exception ignored) {}
+        } catch (Exception ignored) {
+        }
     }
 
     public void start(long time) {
