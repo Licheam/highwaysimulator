@@ -26,8 +26,9 @@ public abstract class BaseCar implements CarObservable {
     public final int getMaxPassengers() {
         return MAX_PASSENGERS;
     }
+
     public final long getPullOffTime() {
-        return  PULL_OFF_TIME;
+        return PULL_OFF_TIME;
     }
 
     public BaseCar(CarTrack track) {
@@ -50,11 +51,11 @@ public abstract class BaseCar implements CarObservable {
         this.speed = speed;
     }
 
-    public void setCurrentLocation(String currentLocation){
+    public void setCurrentLocation(String currentLocation) {
         this.currentLocation = currentLocation;
     }
 
-    public String getLocation(){
+    public String getLocation() {
         return currentLocation;
     }
 

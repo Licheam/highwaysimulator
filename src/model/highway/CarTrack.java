@@ -1,7 +1,10 @@
 package model.highway;
 
 import cars.BaseCar;
+import cars.IvecoCar;
+import cars.VolveCar;
 import enumerates.CarDirection;
+import enumerates.CarType;
 import exceptions.TimeErrorException;
 import model.timer.TimeModel;
 import model.timer.TimeObserver;
@@ -13,7 +16,7 @@ import java.util.TreeMap;
 
 /**
  * CarTrack is to present a highway in our simulation.
- *
+ * <p>
  * It contains packed cars with location etc., and the stations information.
  * It also preform the simulation of cars.
  * It fetches the time from TimeModel.
@@ -92,6 +95,74 @@ public class CarTrack implements TimeObserver {
                 car.car.notifyPositionObservers();
             }
         }
+    }
+
+    private int getNumberOfVolveCar() {
+        int numberOfVolveCar = 0;
+        for (CarPackage car : cars) {
+            if (car.car instanceof VolveCar) {
+                numberOfVolveCar++;
+            }
+        }
+        return numberOfVolveCar;
+    }
+
+    private int getNumberOfIvecoCar() {
+        int numberOfIvecoCar = 0;
+        for (CarPackage car : cars) {
+            if (car.car instanceof IvecoCar) {
+                numberOfIvecoCar++;
+            }
+        }
+        return numberOfIvecoCar;
+    }
+
+    public int[] getIDOfCars(CarType carType) {
+        if (carType == CarType.Volve) {
+            int i = 0;
+            int[] ID = new int[getNumberOfVolveCar()];
+            for (CarPackage car : cars) {
+                if (car.car instanceof VolveCar) {
+                    ID[i++] = ((VolveCar) car.car).ID;
+                }
+            }
+            return ID;
+        } else if (carType == CarType.Iveco) {
+            int i = 0;
+            int[] ID = new int[getNumberOfIvecoCar()];
+            for (CarPackage car : cars) {
+                if (car.car instanceof IvecoCar) {
+                    ID[i++] = ((IvecoCar) car.car).ID;
+                }
+            }
+            return ID;
+        } else {
+            return new int[0];
+        }
+    }
+
+    public double[] getLocationOfCars(CarType carType) {
+        if (carType == CarType.Volve) {
+            int i = 0;
+            double[] Locations = new double[getNumberOfIvecoCar()];
+            for (CarPackage car : cars) {
+                Locations[i++] = car.location;
+            }
+            return Locations;
+        } else if (carType == CarType.Iveco) {
+            int i = 0;
+            double[] Locations = new double[getNumberOfIvecoCar()];
+            for (CarPackage car : cars) {
+                Locations[i++] = car.location;
+            }
+            return Locations;
+        } else {
+            return new double[0];
+        }
+    }
+
+    public ArrayList<CarPackage> getCars(CarType carType) {
+        return cars;
     }
 
     @Override

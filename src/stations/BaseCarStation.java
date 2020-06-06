@@ -59,11 +59,31 @@ public abstract class BaseCarStation implements CarStationObservable, TimeObserv
         }
     }
 
+    public int[] getIDOfCars(CarType carType) {
+        if (carType == CarType.Volve) {
+            int i = 0;
+            int[] ID = new int[this.getNumberOfCars(CarType.Volve)];
+            for (VolveCar volveCar : volveCars) {
+                ID[i++] = volveCar.ID;
+            }
+            return ID;
+        } else if (carType == CarType.Iveco) {
+            int i = 0;
+            int[] ID = new int[this.getNumberOfCars(CarType.Iveco)];
+            for (IvecoCar ivecoCar : ivecoCars) {
+                ID[i++] = ivecoCar.ID;
+            }
+            return ID;
+        } else {
+            return new int[0];
+        }
+    }
+
     public void returnCar(BaseCar car) {
         if (car instanceof VolveCar) {
-            volveCars.offer((VolveCar)car);
+            volveCars.offer((VolveCar) car);
         } else if (car instanceof IvecoCar) {
-            ivecoCars.offer((IvecoCar)car);
+            ivecoCars.offer((IvecoCar) car);
         }
 
         notifyCarStationObservers();
