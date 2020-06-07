@@ -45,15 +45,15 @@ public class View {
         System.out.println("-----------------------------------------------------");
         System.out.println("正在高速路上行驶的车辆：");
         for (CarPackage car : track.getCars()) {
-                printIDOfCar(track, car);
-                System.out.print("车辆位置：");
-                printCarLoaction(track, car);
-                System.out.println("乘客数：" + car.car.getNumberOfPassengers());
+            printIDOfCar(track, car);
+            System.out.print("车辆位置：");
+            printCarLocation(track, car);
+            System.out.println("乘客数：" + car.car.getNumberOfPassengers());
         }
         System.out.println("-----------------------------------------------------");
     }
 
-    private void printCarLoaction(CarTrack track, CarPackage car) {
+    private void printCarLocation(CarTrack track, CarPackage car) {
         String direction;
         // BJ to XN is forward.
         if (car.direction == CarDirection.Forward) {
@@ -67,10 +67,10 @@ public class View {
                 + track.getRelativeLocation(car));
     }
 
-    public void printIDOfCar(CarTrack track, CarPackage car){
+    public void printIDOfCar(CarTrack track, CarPackage car) {
         if (car.car instanceof VolveCar) {
             System.out.println("Volve:" + ((VolveCar) car.car).ID);
-        }else if (car.car instanceof IvecoCar) {
+        } else if (car.car instanceof IvecoCar) {
             System.out.println("Iveco:" + ((IvecoCar) car.car).ID + car.car.getLocation());
         }
     }

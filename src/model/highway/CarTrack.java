@@ -133,8 +133,8 @@ public class CarTrack implements TimeObserver {
     public double getRelativeLocation(CarPackage car) {
         double location = car.location;
         double relativeLocation = 0;
-        while (location > 0){
-            if (stationsDistributions.get(location) != null){
+        while (location > 0) {
+            if (stationsDistributions.get(location) != null) {
                 this.getKey(stationsDistributions, location);
                 relativeLocation = car.location - location;
                 break;
@@ -145,11 +145,11 @@ public class CarTrack implements TimeObserver {
         return relativeLocation;
     }
 
-    public String getRelativeStation(CarPackage car){
+    public String getRelativeStation(CarPackage car) {
         double location = car.location;
         String relativeStation = "";
-        while(location > 0){
-            if (stationsDistributions.get(location) != null){
+        while (location > 0) {
+            if (stationsDistributions.get(location) != null) {
                 relativeStation = stationsDistributions.get(location);
             } else {
                 location -= car.car.getSpeed();
