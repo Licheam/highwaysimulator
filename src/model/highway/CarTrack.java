@@ -4,7 +4,6 @@ import cars.BaseCar;
 import cars.IvecoCar;
 import cars.VolveCar;
 import enumerates.CarDirection;
-import enumerates.CarType;
 import exceptions.TimeErrorException;
 import model.timer.TimeModel;
 import model.timer.TimeObserver;
@@ -97,7 +96,7 @@ public class CarTrack implements TimeObserver {
         }
     }
 
-    private int getNumberOfVolveCar() {
+    private int getNumberOfVolveCars() {
         int numberOfVolveCar = 0;
         for (CarPackage car : cars) {
             if (car.car instanceof VolveCar) {
@@ -107,7 +106,7 @@ public class CarTrack implements TimeObserver {
         return numberOfVolveCar;
     }
 
-    private int getNumberOfIvecoCar() {
+    private int getNumberOfIvecoCars() {
         int numberOfIvecoCar = 0;
         for (CarPackage car : cars) {
             if (car.car instanceof IvecoCar) {
@@ -117,52 +116,46 @@ public class CarTrack implements TimeObserver {
         return numberOfIvecoCar;
     }
 
-    public int[] getIDOfCars(CarType carType) {
-        if (carType == CarType.Volve) {
-            int i = 0;
-            int[] ID = new int[getNumberOfVolveCar()];
-            for (CarPackage car : cars) {
-                if (car.car instanceof VolveCar) {
-                    ID[i++] = ((VolveCar) car.car).ID;
-                }
-            }
-            return ID;
-        } else if (carType == CarType.Iveco) {
-            int i = 0;
-            int[] ID = new int[getNumberOfIvecoCar()];
-            for (CarPackage car : cars) {
-                if (car.car instanceof IvecoCar) {
-                    ID[i++] = ((IvecoCar) car.car).ID;
-                }
-            }
-            return ID;
-        } else {
-            return new int[0];
-        }
-    }
-
-    public double[] getLocationOfCars(CarType carType) {
-        if (carType == CarType.Volve) {
-            int i = 0;
-            double[] Locations = new double[getNumberOfIvecoCar()];
-            for (CarPackage car : cars) {
-                Locations[i++] = car.location;
-            }
-            return Locations;
-        } else if (carType == CarType.Iveco) {
-            int i = 0;
-            double[] Locations = new double[getNumberOfIvecoCar()];
-            for (CarPackage car : cars) {
-                Locations[i++] = car.location;
-            }
-            return Locations;
-        } else {
-            return new double[0];
-        }
-    }
-
-    public ArrayList<CarPackage> getCars(CarType carType) {
+    public ArrayList<CarPackage> getCars() {
         return cars;
+    }
+
+    private Object getKey(Map map, Object value) {
+        ArrayList<Object> keyList = new ArrayList<>();
+        for (Object key : map.keySet()) {
+            if (map.get(key).equals(value)) {
+                keyList.add(key);
+            }
+        }
+        return keyList;
+    }
+
+    public double getRelativeLocation(CarPackage car) {
+        double location = car.location;
+        double relativeLocation = 0;
+        while (location > 0){
+            if (stationsDistributions.get(location) != null){
+                this.getKey(stationsDistributions, location);
+                relativeLocation = car.location - location;
+                break;
+            } else {
+                location -= car.car.getSpeed();
+            }
+        }
+        return relativeLocation;
+    }
+
+    public String getRelativeStation(CarPackage car){
+        double location = car.location;
+        String relativeStation = "";
+        while(location > 0){
+            if (stationsDistributions.get(location) != null){
+                relativeStation = stationsDistributions.get(location);
+            } else {
+                location -= car.car.getSpeed();
+            }
+        }
+        return relativeStation;
     }
 
     @Override
@@ -178,22 +171,3 @@ public class CarTrack implements TimeObserver {
     }
 }
 
-/**
- * A Package that includes the specific information of a car on track.
- * Specially created for CarTrack.
- */
-class CarPackage {
-    public BaseCar car;
-    public CarDirection direction;
-    public double location;
-    public boolean isPullingOff;
-    public double pullingOffTime;
-
-    public CarPackage(BaseCar car, CarDirection direction, double location) {
-        this.car = car;
-        this.direction = direction;
-        this.location = location;
-        isPullingOff = false;
-        pullingOffTime = 0;
-    }
-}
