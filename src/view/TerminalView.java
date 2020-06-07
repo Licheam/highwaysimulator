@@ -1,19 +1,21 @@
-import cars.IvecoCar;
-import cars.VolveCar;
+package view;
+
 import enumerates.CarDirection;
 import enumerates.CarType;
+import model.cars.IvecoCar;
+import model.cars.VolveCar;
 import model.highway.CarPackage;
 import model.highway.CarTrack;
+import model.stations.BJCarStation;
+import model.stations.XNCarStation;
 import model.timer.TimeModel;
-import stations.BJCarStation;
-import stations.XNCarStation;
 
 /**
- * View is a class that demonstrate the data
+ * view.View is a class that demonstrate the data
  * <p>
- * it includes time, cars and passengers in the XNCarStation and BJCarStation, cars in the CarTrack.
+ * it includes time, model.cars and model.passengers in the XNCarStation and BJCarStation, model.cars in the CarTrack.
  */
-public class View {
+public class TerminalView {
     public void printDetail(TimeModel time, XNCarStation XNCarStation, BJCarStation BJCarStation,
                             CarTrack track) {
         System.out.println("当前时间为：" + time.getTime());
@@ -63,6 +65,7 @@ public class View {
         } else {
             direction = "";
         }
+
         System.out.println(track.getRelativeStation(car) + "站" + "以" + direction
                 + track.getRelativeLocation(car));
     }

@@ -1,4 +1,4 @@
-package cars;
+package model.cars;
 
 import model.highway.CarTrack;
 

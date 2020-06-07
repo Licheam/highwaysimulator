@@ -1,13 +1,14 @@
-package stations;
+package model.stations;
 
-import cars.BaseCar;
-import cars.IvecoCar;
-import cars.VolveCar;
 import enumerates.CarDirection;
 import enumerates.CarType;
 import exceptions.OverDepartException;
 import exceptions.TimeErrorException;
+import model.cars.BaseCar;
+import model.cars.IvecoCar;
+import model.cars.VolveCar;
 import model.highway.CarTrack;
+import model.passengers.Passenger;
 import model.timer.TimeModel;
 import model.timer.TimeObserver;
 
@@ -28,6 +29,8 @@ public abstract class BaseCarStation implements CarStationObservable, TimeObserv
     protected final Queue<IvecoCar> ivecoCars = new LinkedList<>();
     protected TimeModel timeModel;
     protected long currentTime;
+    protected final Queue<Passenger> passengers = new LinkedList<>();
+    protected int passengersArrivedPerMin;
 
 
     public BaseCarStation(CarTrack track, CarDirection direction, double location, CarFactory carFactory, TimeModel timeModel) {
@@ -39,6 +42,7 @@ public abstract class BaseCarStation implements CarStationObservable, TimeObserv
         track.setTerminalStations(this);
         track.addStation(this.toString(), location);
         currentTime = 0;
+        passengersArrivedPerMin = 3;
     }
 
     public double getLocation() {
@@ -101,10 +105,44 @@ public abstract class BaseCarStation implements CarStationObservable, TimeObserv
         }
 
         notifyCarStationObservers();
+
+        int passengersToBoard = Math.min(carToDepart.getMaxPassengers(), passengers.size());
+
+        for (int i = 1; i <= passengersToBoard; i++) {
+            carToDepart.addPassenger(passengers.poll());
+        }
         return carToDepart;
     }
 
+    public int getNumberOfPassengers() {
+        return passengers.size();
+    }
+
     protected abstract void simulateCarStation(long timeGap) throws TimeErrorException;
+
+    protected void simulatePassengers(long timeGap) throws TimeErrorException {
+        if (timeGap <= 0) {
+            throw new TimeErrorException();
+        } else {
+            for (int i = 1; i <= (double) timeGap / 60000; i++) {
+                passengers.add(new Passenger(this.toString()));
+            }
+            notifyCarStationObservers();
+        }
+    }
+
+    @Override
+    public void updateTime() {
+        long updatedTime = timeModel.getTime();
+        try {
+            simulatePassengers(updatedTime - currentTime);
+            simulateCarStation(updatedTime - currentTime);
+        } catch (TimeErrorException e) {
+            e.printStackTrace();
+        } finally {
+            currentTime = updatedTime;
+        }
+    }
 
     @Override
     public void registerObserver(CarStationObserver carStationObserver) {

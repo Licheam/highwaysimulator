@@ -1,9 +1,9 @@
-package stations;
+package model.stations;
 
-import cars.BaseCar;
-import cars.IvecoCar;
-import cars.VolveCar;
 import enumerates.CarType;
+import model.cars.BaseCar;
+import model.cars.IvecoCar;
+import model.cars.VolveCar;
 import model.highway.CarTrack;
 
 public class CarFactory {

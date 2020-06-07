@@ -1,8 +1,8 @@
-package cars;
+package model.cars;
 
 import model.highway.CarPositionObserver;
-import passengers.CarInStationObserver;
-import passengers.CarPassengerObserver;
+import model.passengers.CarInStationObserver;
+import model.passengers.CarPassengerObserver;
 
 public interface CarObservable {
     void registerObserver(CarPositionObserver positionObserver);

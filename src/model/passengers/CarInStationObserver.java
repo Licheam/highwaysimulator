@@ -1,6 +1,6 @@
-package passengers;
+package model.passengers;
 
-import cars.BaseCar;
+import model.cars.BaseCar;
 
 public interface CarInStationObserver {
     void updateCarInStation(BaseCar car, String carStation);

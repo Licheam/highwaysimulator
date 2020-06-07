@@ -1,7 +1,7 @@
 package model.highway;
 
-import cars.BaseCar;
 import enumerates.CarDirection;
+import model.cars.BaseCar;
 
 /**
  * A Package that includes the specific information of a car on track.

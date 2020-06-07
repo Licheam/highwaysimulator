@@ -1,9 +1,10 @@
-package cars;
+package model.cars;
 
 import model.highway.CarPositionObserver;
 import model.highway.CarTrack;
-import passengers.CarInStationObserver;
-import passengers.CarPassengerObserver;
+import model.passengers.CarInStationObserver;
+import model.passengers.CarPassengerObserver;
+import model.passengers.Passenger;
 
 import java.util.ArrayList;
 
@@ -14,13 +15,14 @@ public abstract class BaseCar implements CarObservable {
     private final ArrayList<CarInStationObserver> inStationObservers = new ArrayList<>();
     private double speed = 0;
     private String currentLocation;
+    private final ArrayList<Passenger> passengers = new ArrayList<>();
 
     protected static double MAX_SPEED;
     protected static int MAX_PASSENGERS;
     protected static long PULL_OFF_TIME;
 
     public final double getMaxSpeed() {
-        return MAX_SPEED;
+        return MAX_SPEED / 60000;
     }
 
     public final int getMaxPassengers() {
@@ -60,7 +62,17 @@ public abstract class BaseCar implements CarObservable {
     }
 
     public int getNumberOfPassengers() {
-        return passengerObservers.size();
+        return passengers.size();
+    }
+
+    public void addPassenger(Passenger passenger) {
+        passengers.add(passenger);
+        notifyPassengerObservers();
+    }
+
+    public void removePassenger(Passenger passenger) {
+        passengers.remove(passenger);
+        notifyPassengerObservers();
     }
 
     @Override

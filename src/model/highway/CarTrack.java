@@ -1,13 +1,13 @@
 package model.highway;
 
-import cars.BaseCar;
-import cars.IvecoCar;
-import cars.VolveCar;
 import enumerates.CarDirection;
 import exceptions.TimeErrorException;
+import model.cars.BaseCar;
+import model.cars.IvecoCar;
+import model.cars.VolveCar;
+import model.stations.BaseCarStation;
 import model.timer.TimeModel;
 import model.timer.TimeObserver;
-import stations.BaseCarStation;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -16,8 +16,8 @@ import java.util.TreeMap;
 /**
  * CarTrack is to present a highway in our simulation.
  * <p>
- * It contains packed cars with location etc., and the stations information.
- * It also preform the simulation of cars.
+ * It contains packed model.cars with location etc., and the model.stations information.
+ * It also preform the simulation of model.cars.
  * It fetches the time from TimeModel.
  */
 public class CarTrack implements TimeObserver {
@@ -81,6 +81,21 @@ public class CarTrack implements TimeObserver {
                 } else {
                     car.location += timeGap * car.car.getMaxSpeed();
                 }
+            } else if (car.direction == CarDirection.Backward) {
+                Map.Entry<Double, String> nextStation = stationsDistributions.floorEntry(car.location - 0.1);
+                if (car.location - nextStation.getKey() <= timeGap * car.car.getMaxSpeed()) {
+                    timeGap -= (car.location - nextStation.getKey()) / car.car.getMaxSpeed();
+                    car.location = nextStation.getKey();
+                    car.isPullingOff = true;
+                    car.car.notifyCarInStationObservers(nextStation.getValue());
+                    if (nextStation.getValue().equals(carTerminalStation.toString())) {
+                        returnCar(carInitialStation, car);
+                    } else {
+                        moveCar(car, timeGap);
+                    }
+                } else {
+                    car.location += timeGap * car.car.getMaxSpeed();
+                }
             }
         }
     }
@@ -120,42 +135,19 @@ public class CarTrack implements TimeObserver {
         return cars;
     }
 
-    private Object getKey(Map map, Object value) {
-        ArrayList<Object> keyList = new ArrayList<>();
-        for (Object key : map.keySet()) {
-            if (map.get(key).equals(value)) {
-                keyList.add(key);
-            }
+    public Map.Entry<Double, String> getLocationDetails(double location, CarDirection direction) {
+        Map.Entry<Double, String> lastStation = null;
+        if (direction == CarDirection.Forward) {
+            lastStation = stationsDistributions.floorEntry(location - 0.1);
+        } else if (direction == CarDirection.Backward) {
+            lastStation = stationsDistributions.ceilingEntry(location + 0.1);
         }
-        return keyList;
-    }
 
-    public double getRelativeLocation(CarPackage car) {
-        double location = car.location;
-        double relativeLocation = 0;
-        while (location > 0) {
-            if (stationsDistributions.get(location) != null) {
-                this.getKey(stationsDistributions, location);
-                relativeLocation = car.location - location;
-                break;
-            } else {
-                location -= car.car.getSpeed();
-            }
+        if (lastStation == null) {
+            return null;
+        } else {
+            return Map.entry(location - lastStation.getKey(), lastStation.getValue());
         }
-        return relativeLocation;
-    }
-
-    public String getRelativeStation(CarPackage car) {
-        double location = car.location;
-        String relativeStation = "";
-        while (location > 0) {
-            if (stationsDistributions.get(location) != null) {
-                relativeStation = stationsDistributions.get(location);
-            } else {
-                location -= car.car.getSpeed();
-            }
-        }
-        return relativeStation;
     }
 
     @Override

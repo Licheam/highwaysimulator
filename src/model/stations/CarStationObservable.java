@@ -1,4 +1,4 @@
-package stations;
+package model.stations;
 
 public interface CarStationObservable {
     void registerObserver(CarStationObserver carStationObserver);

@@ -1,6 +1,6 @@
 package model.highway;
 
-import cars.BaseCar;
+import model.cars.BaseCar;
 
 public interface CarPositionObserver {
     void updateCarPosition(BaseCar car);
