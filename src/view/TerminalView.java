@@ -30,7 +30,7 @@ public class TerminalView {
             System.out.print(ID + "\t");
         }
         System.out.println("");
-//        System.out.println("等待乘客：" + XNCarStation.);
+        System.out.println("等待乘客：" + XNCarStation.getNumberOfPassengers());
         System.out.println("-----------------------------------------------------");
         System.out.println("宝鸡站内：");
         System.out.print("沃尔沃客车：");
@@ -43,7 +43,7 @@ public class TerminalView {
             System.out.print(ID + "\t");
         }
         System.out.println();
-//        System.out.println("等待乘客：" + BJCarStation.);
+        System.out.println("等待乘客：" + BJCarStation.getNumberOfPassengers());
         System.out.println("-----------------------------------------------------");
         System.out.println("正在高速路上行驶的车辆：");
         for (CarPackage car : track.getCars()) {
@@ -65,9 +65,9 @@ public class TerminalView {
         } else {
             direction = "";
         }
-
-        System.out.println(track.getRelativeStation(car) + "站" + "以" + direction
-                + track.getRelativeLocation(car));
+        System.out.println(track.getLocationDetails(car.location, car.direction).getKey()
+                + "站" + "以" + direction
+                + track.getLocationDetails(car.location, car.direction).getValue());
     }
 
     public void printIDOfCar(CarTrack track, CarPackage car) {
