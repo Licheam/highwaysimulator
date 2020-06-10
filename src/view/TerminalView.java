@@ -2,23 +2,32 @@ package view;
 
 import enumerates.CarDirection;
 import enumerates.CarType;
+import model.cars.BaseCar;
 import model.cars.IvecoCar;
 import model.cars.VolveCar;
 import model.highway.CarPackage;
+import model.highway.CarPositionObserver;
 import model.highway.CarTrack;
+import model.highway.CarTrackObserver;
+import model.passengers.CarPassengerObserver;
 import model.stations.BJCarStation;
+import model.stations.BaseCarStation;
+import model.stations.CarStationObserver;
 import model.stations.XNCarStation;
 import model.timer.TimeModel;
+import model.timer.TimeObserver;
 
 /**
  * view.View is a class that demonstrate the data
  * <p>
- * it includes time, model.cars and model.passengers in the XNCarStation and BJCarStation, model.cars in the CarTrack.
+ * it includes time, model.cars and model.passengers in the XNCarStation and BJCarStation,
+ * model.cars in the CarTrack.
  */
-public class TerminalView {
+public class TerminalView implements TimeObserver, CarStationObserver, CarTrackObserver,
+        CarPassengerObserver,CarPositionObserver{
     public void printDetail(TimeModel time, XNCarStation XNCarStation, BJCarStation BJCarStation,
                             CarTrack track) {
-        System.out.println("当前时间为：" + time.getTime());
+        updateTime(time);
         System.out.println("西安站内：");
         System.out.print("沃尔沃客车：");
         for (int ID : XNCarStation.getIDOfCars(CarType.Volve)) {
@@ -76,5 +85,30 @@ public class TerminalView {
         } else if (car.car instanceof IvecoCar) {
             System.out.println("Iveco:" + ((IvecoCar) car.car).ID + car.car.getLocation());
         }
+    }
+
+    @Override
+    public void updateCarPosition(BaseCar car) {
+
+    }
+
+    @Override
+    public void updateCarTrack(CarTrack track) {
+
+    }
+
+    @Override
+    public void updateCarPassenger(BaseCar car) {
+
+    }
+
+    @Override
+    public void updateCarStation(BaseCarStation carStation) {
+
+    }
+
+    @Override
+    public void updateTime(TimeModel time) {
+        System.out.println("当前时间为：" + time.getTime());
     }
 }

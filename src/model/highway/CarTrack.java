@@ -111,7 +111,7 @@ public class CarTrack implements TimeObserver {
         }
     }
 
-    private int getNumberOfVolveCars() {
+    public int getNumberOfVolveCars() {
         int numberOfVolveCar = 0;
         for (CarPackage car : cars) {
             if (car.car instanceof VolveCar) {
@@ -121,7 +121,7 @@ public class CarTrack implements TimeObserver {
         return numberOfVolveCar;
     }
 
-    private int getNumberOfIvecoCars() {
+    public int getNumberOfIvecoCars() {
         int numberOfIvecoCar = 0;
         for (CarPackage car : cars) {
             if (car.car instanceof IvecoCar) {
