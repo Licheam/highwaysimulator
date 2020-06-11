@@ -15,6 +15,7 @@ import model.timer.TimeObserver;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Random;
 
 public abstract class BaseCarStation implements CarStationObservable, TimeObserver {
 
@@ -33,7 +34,8 @@ public abstract class BaseCarStation implements CarStationObservable, TimeObserv
     protected int passengersArrivedPerMin;
 
 
-    public BaseCarStation(CarTrack track, CarDirection direction, double location, CarFactory carFactory, TimeModel timeModel) {
+    public BaseCarStation(CarTrack track, CarDirection direction, double location,
+                          CarFactory carFactory, TimeModel timeModel) {
         this.track = track;
         this.direction = direction;
         this.location = location;
@@ -106,6 +108,7 @@ public abstract class BaseCarStation implements CarStationObservable, TimeObserv
 
         notifyCarStationObservers();
 
+        assert carToDepart != null;
         int passengersToBoard = Math.min(carToDepart.getMaxPassengers(), passengers.size());
 
         for (int i = 1; i <= passengersToBoard; i++) {
@@ -125,14 +128,17 @@ public abstract class BaseCarStation implements CarStationObservable, TimeObserv
             throw new TimeErrorException();
         } else {
             for (int i = 1; i <= (double) timeGap / 60000; i++) {
-                passengers.add(new Passenger(this.toString()));
+                Random random = new Random();
+                for (int j = 0; j < random.nextInt(passengersArrivedPerMin+1); j++) {
+                    passengers.add(new Passenger(this.toString()));
+                }
             }
             notifyCarStationObservers();
         }
     }
 
     @Override
-    public void updateTime() {
+    public void updateTime(TimeModel timeModel) {
         long updatedTime = timeModel.getTime();
         try {
             simulatePassengers(updatedTime - currentTime);
