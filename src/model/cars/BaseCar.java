@@ -9,6 +9,7 @@ import model.passengers.Passenger;
 import java.util.ArrayList;
 
 public abstract class BaseCar implements CarObservable {
+    protected int ID;
     private CarTrack track;
     private final ArrayList<CarPositionObserver> positionObservers = new ArrayList<>();
     private final ArrayList<CarPassengerObserver> passengerObservers = new ArrayList<>();
@@ -20,6 +21,10 @@ public abstract class BaseCar implements CarObservable {
     protected static double MAX_SPEED = 0;
     protected static int MAX_PASSENGERS = 0;
     protected static long PULL_OFF_TIME = 0;
+
+    public final int getID() {
+        return ID;
+    }
 
     public final double getMaxSpeed() {
         return MAX_SPEED / 60000;

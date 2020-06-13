@@ -1,6 +1,7 @@
 package model.highway;
 
 import enumerates.CarDirection;
+import exceptions.LocationErrorException;
 import exceptions.TimeErrorException;
 import model.cars.BaseCar;
 import model.cars.IvecoCar;
@@ -20,7 +21,8 @@ import java.util.TreeMap;
  * It also preform the simulation of model.cars.
  * It fetches the time from TimeModel.
  */
-public class CarTrack implements TimeObserver {
+public class CarTrack implements TimeObserver, CarTrackObservable {
+    private final ArrayList<CarTrackObserver> carTrackObservers = new ArrayList<>();
     private TimeModel timeModel;
     private final ArrayList<CarPackage> cars = new ArrayList<>();
     private long currentTime;
@@ -46,11 +48,13 @@ public class CarTrack implements TimeObserver {
 
     public void dispatchCar(BaseCar car, CarDirection direction, double location) {
         cars.add(new CarPackage(car, direction, location));
+        notifyObservers();
     }
 
     public void returnCar(BaseCarStation carStation, CarPackage car) {
         carStation.returnCar(car.car);
         cars.remove(car);
+        notifyObservers();
     }
 
     private void moveCar(CarPackage car, double timeGap) {
@@ -135,7 +139,7 @@ public class CarTrack implements TimeObserver {
         return cars;
     }
 
-    public Map.Entry<Double, String> getLocationDetails(double location, CarDirection direction) {
+    public Map.Entry<Double, String> getLocationDetails(double location, CarDirection direction) throws LocationErrorException {
         Map.Entry<Double, String> lastStation = null;
         if (direction == CarDirection.Forward) {
             lastStation = stationsDistributions.floorEntry(location - 0.1);
@@ -144,14 +148,14 @@ public class CarTrack implements TimeObserver {
         }
 
         if (lastStation == null) {
-            return null;
+            throw new LocationErrorException();
         } else {
             return Map.entry(location - lastStation.getKey(), lastStation.getValue());
         }
     }
 
     @Override
-    public void updateTime() {
+    public void updateTime(TimeModel timeModel) {
         long updatedTime = timeModel.getTime();
         try {
             simulateCars(updatedTime - currentTime);
@@ -159,6 +163,23 @@ public class CarTrack implements TimeObserver {
             e.printStackTrace();
         } finally {
             currentTime = updatedTime;
+        }
+    }
+
+    @Override
+    public void registerObserver(CarTrackObserver carTrackObserver) {
+        carTrackObservers.add(carTrackObserver);
+    }
+
+    @Override
+    public void removeObserver(CarTrackObserver carTrackObserver) {
+        carTrackObservers.remove(carTrackObserver);
+    }
+
+    @Override
+    public void notifyObservers() {
+        for (CarTrackObserver carTrackObserver : carTrackObservers) {
+            carTrackObserver.updateCarTrack(this);
         }
     }
 }

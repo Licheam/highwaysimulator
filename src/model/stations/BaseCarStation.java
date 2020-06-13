@@ -70,14 +70,14 @@ public abstract class BaseCarStation implements CarStationObservable, TimeObserv
             int i = 0;
             int[] ID = new int[this.getNumberOfCars(CarType.Volve)];
             for (VolveCar volveCar : volveCars) {
-                ID[i++] = volveCar.ID;
+                ID[i++] = volveCar.getID();
             }
             return ID;
         } else if (carType == CarType.Iveco) {
             int i = 0;
             int[] ID = new int[this.getNumberOfCars(CarType.Iveco)];
             for (IvecoCar ivecoCar : ivecoCars) {
-                ID[i++] = ivecoCar.ID;
+                ID[i++] = ivecoCar.getID();
             }
             return ID;
         } else {

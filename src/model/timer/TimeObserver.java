@@ -1,5 +1,5 @@
 package model.timer;
 
 public interface TimeObserver {
-    void updateTime(TimeModel time);
+    void updateTime(TimeModel timeModel);
 }
