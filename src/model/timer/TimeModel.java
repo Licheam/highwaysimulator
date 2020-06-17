@@ -47,7 +47,7 @@ public class TimeModel implements TimeObservable {
         }
     }
 
-    public void start(long time) {
+    private void start(long time) {
         startTime = time;
         this.time = new Time(startTime);
         isToStop = false;
@@ -91,7 +91,7 @@ public class TimeModel implements TimeObservable {
     @Override
     public void notifyTimeObservers() {
         for (TimeObserver timeObserver : timeObservers) {
-            timeObserver.updateTime();
+            timeObserver.updateTime(this);
         }
     }
 }

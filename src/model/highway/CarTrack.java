@@ -29,7 +29,7 @@ public class CarTrack implements TimeObserver, CarTrackObservable {
     private final TreeMap<Double, String> stationsDistributions = new TreeMap<>();
     private BaseCarStation carInitialStation, carTerminalStation;
 
-    CarTrack(TimeModel timeModel) {
+    public CarTrack(TimeModel timeModel) {
         this.timeModel = timeModel;
         currentTime = 0;
     }
