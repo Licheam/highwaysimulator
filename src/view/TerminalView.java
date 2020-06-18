@@ -31,7 +31,7 @@ public class TerminalView implements TimeObserver, CarStationObserver, CarTrackO
     public void updateCarPosition(BaseCar car) {
     }
 
-//  version that have CarPackage.
+    //  version that have CarPackage.
     public void updateCarPosition(CarTrack track) throws LocationErrorException {
         System.out.println("正在高速路上行驶的车辆：");
         for (CarPackage car : track.getCars()) {
@@ -59,9 +59,9 @@ public class TerminalView implements TimeObserver, CarStationObserver, CarTrackO
 
     private void printIDOfCar(CarTrack track, CarPackage car) {
         if (car.car instanceof VolveCar) {
-            System.out.println("Volve:" + ((VolveCar) car.car).ID);
+            System.out.println("Volve:" + ((VolveCar) car.car).getID());
         } else if (car.car instanceof IvecoCar) {
-            System.out.println("Iveco:" + ((IvecoCar) car.car).ID + car.car.getLocation());
+            System.out.println("Iveco:" + ((IvecoCar) car.car).getID() + car.car.getLocation());
         }
     }
 
