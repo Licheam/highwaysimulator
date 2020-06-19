@@ -45,6 +45,7 @@ public abstract class BaseCarStation implements CarStationObservable, TimeObserv
         this.location = location;
         this.carFactory = carFactory;
         this.timeModel = timeModel;
+        timeModel.registerObserver(this);
         track.setTerminalStations(this);
         track.addStation(this.toString(), location);
         currentTime = 0;

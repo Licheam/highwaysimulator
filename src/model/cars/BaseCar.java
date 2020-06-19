@@ -24,6 +24,10 @@ public abstract class BaseCar implements CarObservable {
     protected static int MAX_PASSENGERS = 0;
     protected static long PULL_OFF_TIME = 0;
 
+    public BaseCar(CarTrack track) {
+        this.track = track;
+    }
+
     public final int getID() {
         return ID;
     }
@@ -38,10 +42,6 @@ public abstract class BaseCar implements CarObservable {
 
     public final long getPullOffTime() {
         return PULL_OFF_TIME;
-    }
-
-    public BaseCar(CarTrack track) {
-        this.track = track;
     }
 
     public CarTrack getTrack() {

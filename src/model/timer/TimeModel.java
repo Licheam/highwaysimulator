@@ -13,7 +13,7 @@ import static java.lang.Thread.sleep;
  */
 public class TimeModel implements TimeObservable {
     private static final String DEFAULT_DATE_FORMAT = "HH:mm";
-    private static final String DEFAULT_TIME = "07:30";
+    private static final String DEFAULT_TIME = "08:30";
     private static final long DEFAULT_SIMULATED_TIME_GAP = 60000;
     private static final long DEFAULT_UPDATE_TIME_GAP = 1000;
     private long startTime;
@@ -29,10 +29,11 @@ public class TimeModel implements TimeObservable {
         notifyTimeObservers();
         while (!isToStop) {
             try {
-                sleep(DEFAULT_SIMULATED_TIME_GAP);
-            } catch (Exception ignored) {
+                sleep(DEFAULT_UPDATE_TIME_GAP);
+            } catch (Exception exception) {
+                exception.printStackTrace();
             }
-            time.setTime(time.getTime() + DEFAULT_UPDATE_TIME_GAP);
+            time.setTime(time.getTime() + DEFAULT_SIMULATED_TIME_GAP);
             notifyTimeObservers();
         }
         isRunning = false;
@@ -44,11 +45,13 @@ public class TimeModel implements TimeObservable {
                     .parse(DEFAULT_TIME)
                     .getTime()
             );
-        } catch (Exception ignored) {
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
     }
 
     private void start(long time) {
+        System.out.println("start time:" + time);
         startTime = time;
         this.time = new Time(startTime);
         isToStop = false;
