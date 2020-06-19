@@ -1,5 +1,7 @@
 package model.cars;
 
+import enumerates.CarDirection;
+import exceptions.LocationErrorException;
 import model.highway.CarPositionObserver;
 import model.highway.CarTrack;
 import model.passengers.CarInStationObserver;
@@ -91,9 +93,9 @@ public abstract class BaseCar implements CarObservable {
     }
 
     @Override
-    public final void notifyPositionObservers() {
+    public final void notifyPositionObservers(double location, CarDirection direction) throws LocationErrorException {
         for (CarPositionObserver positionObserver : positionObservers) {
-            positionObserver.updateCarPosition(this);
+            positionObserver.updateCarPosition(this, location, direction);
         }
     }
 

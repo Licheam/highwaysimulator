@@ -4,9 +4,6 @@ import enumerates.CarDirection;
 import enumerates.CarType;
 import exceptions.LocationErrorException;
 import model.cars.BaseCar;
-import model.cars.IvecoCar;
-import model.cars.VolveCar;
-import model.highway.CarPackage;
 import model.highway.CarPositionObserver;
 import model.highway.CarTrack;
 import model.highway.CarTrackObserver;
@@ -15,6 +12,8 @@ import model.stations.BaseCarStation;
 import model.stations.CarStationObserver;
 import model.timer.TimeModel;
 import model.timer.TimeObserver;
+
+import java.util.Map;
 
 /**
  * view.View is a class that demonstrate the data
@@ -26,42 +25,22 @@ public class TerminalView implements TimeObserver, CarStationObserver, CarTrackO
         CarPassengerObserver, CarPositionObserver {
 
     @Override
-//  version that without CarPackage.
-//    write your code under here. :D
-    public void updateCarPosition(BaseCar car) {
-    }
+    public void updateCarPosition(BaseCar car, double location, CarDirection direction) throws LocationErrorException {
+        Map.Entry<Double, String> locationDetails = car.getTrack().getLocationDetails(location, direction);
 
-    //  version that have CarPackage.
-    public void updateCarPosition(CarTrack track) throws LocationErrorException {
-        System.out.println("正在高速路上行驶的车辆：");
-        for (CarPackage car : track.getCars()) {
-            printIDOfCar(track, car);
-            System.out.print("车辆位置：");
-            printCarLocation(track, car);
-            System.out.println("乘客数：" + car.car.getNumberOfPassengers());
-        }
-    }
-
-    private void printCarLocation(CarTrack track, CarPackage car) throws LocationErrorException {
-        String direction;
-        // BJ to XN is forward.
-        if (car.direction == CarDirection.Forward) {
-            direction = "东";
-        } else if (car.direction == CarDirection.Backward) {
-            direction = "西";
+        System.out.println("第" + car.getID() + "号" + car.toString());
+        if (locationDetails.getKey() > 0) {
+            System.out.println("当前位置: " + locationDetails.getValue() + "站以东" + Math.abs(locationDetails.getKey()) + "公里。");
+        } else if (locationDetails.getKey() < 0) {
+            System.out.println("当前位置: " + locationDetails.getValue() + "站以西" + Math.abs(locationDetails.getKey()) + "公里。");
         } else {
-            direction = "";
+            System.out.println("当前位置: " + locationDetails.getValue() + "站中。");
         }
-        System.out.println(track.getLocationDetails(car.location, car.direction).getKey()
-                + "站" + "以" + direction
-                + track.getLocationDetails(car.location, car.direction).getValue());
-    }
 
-    private void printIDOfCar(CarTrack track, CarPackage car) {
-        if (car.car instanceof VolveCar) {
-            System.out.println("Volve:" + ((VolveCar) car.car).getID());
-        } else if (car.car instanceof IvecoCar) {
-            System.out.println("Iveco:" + ((IvecoCar) car.car).getID() + car.car.getLocation());
+        if (direction.equals(CarDirection.Forward)) {
+            System.out.println("方向为东");
+        } else if (direction.equals(CarDirection.Backward)) {
+            System.out.println("方向为西");
         }
     }
 

@@ -110,7 +110,11 @@ public class CarTrack implements TimeObserver, CarTrackObservable {
         } else {
             for (CarPackage car : cars) {
                 moveCar(car, timeGap);
-                car.car.notifyPositionObservers();
+                try {
+                    car.car.notifyPositionObservers(car.location, car.direction);
+                } catch (LocationErrorException locationErrorException) {
+                    locationErrorException.printStackTrace();
+                }
             }
         }
     }
@@ -133,10 +137,6 @@ public class CarTrack implements TimeObserver, CarTrackObservable {
             }
         }
         return numberOfIvecoCar;
-    }
-
-    public ArrayList<CarPackage> getCars() {
-        return cars;
     }
 
     public Map.Entry<Double, String> getLocationDetails(double location, CarDirection direction) throws LocationErrorException {
