@@ -5,9 +5,13 @@ import enumerates.CarType;
 import exceptions.OverDepartException;
 import exceptions.TimeErrorException;
 import model.cars.BaseCar;
+import model.cars.CarObserver;
 import model.cars.IvecoCar;
 import model.cars.VolveCar;
+import model.highway.CarPositionObserver;
 import model.highway.CarTrack;
+import model.passengers.CarInStationObserver;
+import model.passengers.CarPassengerObserver;
 import model.passengers.Passenger;
 import model.timer.TimeModel;
 import model.timer.TimeObserver;
@@ -129,7 +133,7 @@ public abstract class BaseCarStation implements CarStationObservable, TimeObserv
         } else {
             for (int i = 1; i <= (double) timeGap / 60000; i++) {
                 Random random = new Random();
-                for (int j = 0; j < random.nextInt(passengersArrivedPerMin+1); j++) {
+                for (int j = 0; j < random.nextInt(passengersArrivedPerMin + 1); j++) {
                     passengers.add(new Passenger(this.toString()));
                 }
             }
@@ -164,6 +168,33 @@ public abstract class BaseCarStation implements CarStationObservable, TimeObserv
     public void notifyCarStationObservers() {
         for (CarStationObserver carStationObserver : carStationObservers) {
             carStationObserver.updateCarStation(this);
+        }
+    }
+
+    @Override
+    public void registerAllCars(CarObserver carObserver) {
+        for (BaseCar car : volveCars) {
+            if (carObserver instanceof CarPassengerObserver) {
+                car.registerObserver((CarPassengerObserver) carObserver);
+            }
+            if (carObserver instanceof CarPositionObserver) {
+                car.registerObserver((CarPositionObserver) carObserver);
+            }
+            if (carObserver instanceof CarInStationObserver) {
+                car.registerObserver((CarInStationObserver) carObserver);
+            }
+        }
+
+        for (BaseCar car : ivecoCars) {
+            if (carObserver instanceof CarPassengerObserver) {
+                car.registerObserver((CarPassengerObserver) carObserver);
+            }
+            if (carObserver instanceof CarPositionObserver) {
+                car.registerObserver((CarPositionObserver) carObserver);
+            }
+            if (carObserver instanceof CarInStationObserver) {
+                car.registerObserver((CarInStationObserver) carObserver);
+            }
         }
     }
 }

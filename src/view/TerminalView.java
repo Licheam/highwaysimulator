@@ -9,6 +9,7 @@ import model.highway.CarTrack;
 import model.highway.CarTrackObserver;
 import model.passengers.CarPassengerObserver;
 import model.stations.BaseCarStation;
+import model.stations.CarStationObservable;
 import model.stations.CarStationObserver;
 import model.timer.TimeModel;
 import model.timer.TimeObserver;
@@ -23,6 +24,19 @@ import java.util.Map;
  */
 public class TerminalView implements TimeObserver, CarStationObserver, CarTrackObserver,
         CarPassengerObserver, CarPositionObserver {
+
+    TimeModel timeModel;
+
+    public TerminalView(TimeModel timeModel, CarTrack carTrack) {
+        this.timeModel = timeModel;
+        timeModel.registerObserver(this);
+        carTrack.registerObserver(this);
+    }
+
+    public void setCarStation(CarStationObservable carStation) {
+        carStation.registerObserver(this);
+        carStation.registerAllCars(this);
+    }
 
     @Override
     public void updateCarPosition(BaseCar car, double location, CarDirection direction) throws LocationErrorException {
@@ -65,7 +79,7 @@ public class TerminalView implements TimeObserver, CarStationObserver, CarTrackO
     }
 
     @Override
-    public void updateTime(TimeModel time) {
-        System.out.println("当前时间为：" + time.getTime());
+    public void updateTime(TimeModel timeModel) {
+        System.out.println("当前时间为：" + timeModel.getTime());
     }
 }

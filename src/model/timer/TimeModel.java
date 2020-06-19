@@ -22,6 +22,7 @@ public class TimeModel implements TimeObservable {
     private volatile boolean isRunning = false;
     ArrayList<TimeObserver> timeObservers = new ArrayList<>();
 
+
     @SuppressWarnings("BusyWait")
     private void simulateTime() {
         isRunning = true;
