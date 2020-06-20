@@ -51,7 +51,6 @@ public class TimeModel implements TimeObservable {
     }
 
     private void start(long time) {
-        System.out.println("stating at: " + time);
         startTime = time;
         this.time = new Time(startTime);
         isToStop = false;
