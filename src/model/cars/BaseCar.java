@@ -20,9 +20,9 @@ public abstract class BaseCar implements CarObservable {
     private String currentLocation;
     private final ArrayList<Passenger> passengers = new ArrayList<>();
 
-    protected static double MAX_SPEED = 0;
-    protected static int MAX_PASSENGERS = 0;
-    protected static long PULL_OFF_TIME = 0;
+    protected double MAX_SPEED = 0;
+    protected int MAX_PASSENGERS = 0;
+    protected long PULL_OFF_TIME = 0;
 
     public BaseCar(CarTrack track) {
         this.track = track;

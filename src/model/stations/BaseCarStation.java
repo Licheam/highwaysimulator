@@ -37,6 +37,19 @@ public abstract class BaseCarStation implements CarStationObservable, TimeObserv
     protected final Queue<Passenger> passengers = new LinkedList<>();
     protected int passengersArrivedPerMin;
 
+    protected int DEFAULT_NUMBER_OF_VOLVE;
+    protected int DEFAULT_NUMBER_OF_IVECO;
+    protected String DEFAULT_BEGIN_TIME_OF_VOLVE_FORMAT;
+    protected String DEFAULT_BEGIN_TIME_OF_IVECO_FORMAT;
+    protected String DEFAULT_END_TIME_OF_VOLVE_FORMAT;
+    protected String DEFAULT_END_TIME_OF_IVECO_FORMAT;
+    protected long DEFAULT_BEGIN_TIME_OF_VOLVE;
+    protected long DEFAULT_BEGIN_TIME_OF_IVECO;
+    protected long DEFAULT_END_TIME_OF_VOLVE;
+    protected long DEFAULT_END_TIME_OF_IVECO;
+    protected long DEFAULT_TIME_GAP_OF_VOLVE;
+    protected long DEFAULT_TIME_GAP_OF_IVECO;
+
 
     public BaseCarStation(CarTrack track, CarDirection direction, double location,
                           CarFactory carFactory, TimeModel timeModel) {
@@ -126,7 +139,33 @@ public abstract class BaseCarStation implements CarStationObservable, TimeObserv
         return passengers.size();
     }
 
-    protected abstract void simulateCarStation(long timeGap) throws TimeErrorException;
+    protected void simulateCarStation(long timeGap) throws TimeErrorException {
+        if (timeGap <= 0) {
+            throw new TimeErrorException();
+        } else {
+            if (DEFAULT_BEGIN_TIME_OF_VOLVE <= currentTime + timeGap
+                    && currentTime + timeGap <= DEFAULT_END_TIME_OF_VOLVE) {
+                if ((currentTime + timeGap - DEFAULT_BEGIN_TIME_OF_VOLVE) % DEFAULT_TIME_GAP_OF_VOLVE == 0) {
+                    try {
+                        track.dispatchCar(departCar(CarType.Volve), direction, location);
+                    } catch (OverDepartException overDepartException) {
+                        overDepartException.printStackTrace();
+                    }
+                }
+            }
+
+            if (DEFAULT_BEGIN_TIME_OF_IVECO <= currentTime + timeGap
+                    && currentTime + timeGap <= DEFAULT_END_TIME_OF_IVECO) {
+                if ((currentTime + timeGap - DEFAULT_BEGIN_TIME_OF_IVECO) % DEFAULT_TIME_GAP_OF_IVECO == 0) {
+                    try {
+                        track.dispatchCar(departCar(CarType.Iveco), direction, location);
+                    } catch (OverDepartException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+    }
 
     protected void simulatePassengers(long timeGap) throws TimeErrorException {
         if (timeGap <= 0) {

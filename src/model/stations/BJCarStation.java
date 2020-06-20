@@ -2,8 +2,6 @@ package model.stations;
 
 import enumerates.CarDirection;
 import enumerates.CarType;
-import exceptions.OverDepartException;
-import exceptions.TimeErrorException;
 import model.cars.IvecoCar;
 import model.cars.VolveCar;
 import model.highway.CarTrack;
@@ -13,30 +11,18 @@ import java.text.SimpleDateFormat;
 
 public class BJCarStation extends BaseCarStation {
 
-    private static final int DEFAULT_NUMBER_OF_VOLVE = 5;
-    private static final int DEFAULT_NUMBER_OF_IVECO = 12;
-    private static final String DEFAULT_BEGIN_TIME_OF_VOLVE_FORMAT = "8:30";
-    private static final String DEFAULT_BEGIN_TIME_OF_IVECO_FORMAT = "8:00";
-    private static final String DEFAULT_END_TIME_OF_VOLVE_FORMAT = "17:30";
-    private static final String DEFAULT_END_TIME_OF_IVECO_FORMAT = "18:00";
-    private static long DEFAULT_BEGIN_TIME_OF_VOLVE;
-    private static long DEFAULT_BEGIN_TIME_OF_IVECO;
-    private static long DEFAULT_END_TIME_OF_VOLVE;
-    private static long DEFAULT_END_TIME_OF_IVECO;
-    private static final long DEFAULT_TIME_GAP_OF_VOLVE = 36000000;
-    private static final long DEFAULT_TIME_GAP_OF_IVECO = 12000000;
-
-
-    public BJCarStation(CarTrack track, CarDirection direction,
-                        int location, CarFactory carFactory, TimeModel timeModel) {
+    public BJCarStation(CarTrack track, CarDirection direction, double location,
+                        CarFactory carFactory, TimeModel timeModel) {
         super(track, direction, location, carFactory, timeModel);
-        for (int i = 1; i <= DEFAULT_NUMBER_OF_VOLVE; i++) {
-            volveCars.add((VolveCar) carFactory.getCar(CarType.Volve, track));
-        }
-        for (int i = 1; i <= DEFAULT_NUMBER_OF_IVECO; i++) {
-            ivecoCars.add((IvecoCar) carFactory.getCar(CarType.Iveco, track));
-        }
 
+        DEFAULT_NUMBER_OF_VOLVE = 5;
+        DEFAULT_NUMBER_OF_IVECO = 12;
+        DEFAULT_BEGIN_TIME_OF_VOLVE_FORMAT = "8:30";
+        DEFAULT_BEGIN_TIME_OF_IVECO_FORMAT = "8:00";
+        DEFAULT_END_TIME_OF_VOLVE_FORMAT = "17:30";
+        DEFAULT_END_TIME_OF_IVECO_FORMAT = "18:00";
+        DEFAULT_TIME_GAP_OF_VOLVE = 36000000;
+        DEFAULT_TIME_GAP_OF_IVECO = 12000000;
         try {
             DEFAULT_BEGIN_TIME_OF_VOLVE = new SimpleDateFormat(DEFAULT_DATE_FORMAT)
                     .parse(DEFAULT_BEGIN_TIME_OF_VOLVE_FORMAT)
@@ -50,40 +36,16 @@ public class BJCarStation extends BaseCarStation {
             DEFAULT_END_TIME_OF_IVECO = new SimpleDateFormat(DEFAULT_DATE_FORMAT)
                     .parse(DEFAULT_END_TIME_OF_IVECO_FORMAT)
                     .getTime();
-        } catch(Exception ignored) {}
-
-
-    }
-
-    @Override
-    protected void simulateCarStation(long timeGap) throws TimeErrorException {
-        if (timeGap <= 0) {
-            throw new TimeErrorException();
-        } else {
-            if (DEFAULT_BEGIN_TIME_OF_VOLVE <= currentTime + timeGap
-                    && currentTime + timeGap <= DEFAULT_END_TIME_OF_VOLVE) {
-                if ((currentTime + timeGap - DEFAULT_BEGIN_TIME_OF_VOLVE) % DEFAULT_TIME_GAP_OF_VOLVE == 0) {
-                    try {
-                        track.dispatchCar(departCar(CarType.Volve), direction, location);
-                    } catch (OverDepartException overDepartException) {
-                        overDepartException.printStackTrace();
-                    }
-                }
-            }
-
-            if (DEFAULT_BEGIN_TIME_OF_IVECO <= currentTime + timeGap
-                    && currentTime + timeGap <= DEFAULT_END_TIME_OF_IVECO) {
-                if ((currentTime + timeGap - DEFAULT_BEGIN_TIME_OF_IVECO) % DEFAULT_TIME_GAP_OF_IVECO == 0) {
-                    try {
-                        track.dispatchCar(departCar(CarType.Iveco), direction, location);
-                    } catch (OverDepartException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        currentTime += timeGap;
+        for (int i = 1; i <= DEFAULT_NUMBER_OF_VOLVE; i++) {
+            volveCars.add((VolveCar) carFactory.getCar(CarType.Volve, track));
+        }
+        for (int i = 1; i <= DEFAULT_NUMBER_OF_IVECO; i++) {
+            ivecoCars.add((IvecoCar) carFactory.getCar(CarType.Iveco, track));
+        }
     }
 
     @Override
