@@ -106,7 +106,7 @@ public class CarTrack implements TimeObserver, CarTrackObservable {
     }
 
     private void simulateCars(double timeGap) throws TimeErrorException {
-        if (timeGap <= 0) {
+        if (timeGap < 0) {
             throw new TimeErrorException();
         } else {
             for (CarPackage car : cars) {

@@ -140,7 +140,7 @@ public abstract class BaseCarStation implements CarStationObservable, TimeObserv
     }
 
     protected void simulateCarStation(long timeGap) throws TimeErrorException {
-        if (timeGap <= 0) {
+        if (timeGap < 0) {
             throw new TimeErrorException();
         } else {
             if (DEFAULT_BEGIN_TIME_OF_VOLVE <= currentTime + timeGap
@@ -168,7 +168,7 @@ public abstract class BaseCarStation implements CarStationObservable, TimeObserv
     }
 
     protected void simulatePassengers(long timeGap) throws TimeErrorException {
-        if (timeGap <= 0) {
+        if (timeGap < 0) {
             throw new TimeErrorException();
         } else {
             for (int i = 1; i <= (double) timeGap / 60000; i++) {
