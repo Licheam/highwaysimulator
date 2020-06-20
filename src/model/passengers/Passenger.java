@@ -42,8 +42,8 @@ public class Passenger implements CarInStationObserver {
     @Override
     public void updateCarInStation(BaseCar car, String carStation) {
         if (carStation.equals(getOffStation)) {
+            car.removePassenger(this);
             car.removeObserver(this);
         }
-        car.notifyPassengerObservers();
     }
 }
