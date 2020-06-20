@@ -39,14 +39,17 @@ public class TerminalView implements TimeObserver, CarStationObserver, CarTrackO
     }
 
     @Override
-    public void updateCarPosition(BaseCar car, double location, CarDirection direction) throws LocationErrorException {
+    public void updateCarPosition(BaseCar car, double location, CarDirection direction)
+            throws LocationErrorException {
         Map.Entry<Double, String> locationDetails = car.getTrack().getLocationDetails(location, direction);
 
         System.out.println("第" + car.getID() + "号" + car.toString());
         if (locationDetails.getKey() > 0) {
-            System.out.println("当前位置: " + locationDetails.getValue() + "站以东" + Math.abs(locationDetails.getKey()) + "公里。");
+            System.out.print("当前位置: " + locationDetails.getValue() + "站以东 ");
+            System.out.printf("%.2f 公里。\n", Math.abs(locationDetails.getKey()));
         } else if (locationDetails.getKey() < 0) {
-            System.out.println("当前位置: " + locationDetails.getValue() + "站以西" + Math.abs(locationDetails.getKey()) + "公里。");
+            System.out.print("当前位置: " + locationDetails.getValue() + "站以西 ");
+            System.out.printf("%.2f 公里。\n", Math.abs(locationDetails.getKey()));
         } else {
             System.out.println("当前位置: " + locationDetails.getValue() + "站中。");
         }
@@ -67,7 +70,8 @@ public class TerminalView implements TimeObserver, CarStationObserver, CarTrackO
 
     @Override
     public void updateCarPassenger(BaseCar car) {
-        System.out.println("第" + car.getID() + "号" + car.toString() + "当前乘客数目：" + car.getNumberOfPassengers());
+        System.out.println("第" + car.getID() + "号" + car.toString() + "当前乘客数目："
+                + car.getNumberOfPassengers());
     }
 
     @Override
@@ -80,6 +84,6 @@ public class TerminalView implements TimeObserver, CarStationObserver, CarTrackO
 
     @Override
     public void updateTime(TimeModel timeModel) {
-        System.out.println("当前时间为：" + timeModel.getTime());
+        System.out.println("当前时间为：" + timeModel.getFormatTime());
     }
 }

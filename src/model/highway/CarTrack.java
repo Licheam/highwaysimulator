@@ -140,7 +140,8 @@ public class CarTrack implements TimeObserver, CarTrackObservable {
         return numberOfIvecoCar;
     }
 
-    public Map.Entry<Double, String> getLocationDetails(double location, CarDirection direction) throws LocationErrorException {
+    public Map.Entry<Double, String> getLocationDetails(double location, CarDirection direction)
+            throws LocationErrorException {
         Map.Entry<Double, String> lastStation = null;
         if (direction == CarDirection.Forward) {
             lastStation = stationsDistributions.floorEntry(location - 0.1);

@@ -51,7 +51,7 @@ public class TimeModel implements TimeObservable {
     }
 
     private void start(long time) {
-        System.out.println("start time:" + time);
+        System.out.println("开始时间: " + new SimpleDateFormat(DEFAULT_DATE_FORMAT).format(time));
         startTime = time;
         this.time = new Time(startTime);
         isToStop = false;
@@ -80,6 +80,10 @@ public class TimeModel implements TimeObservable {
 
     public long getTime() {
         return time.getTime();
+    }
+
+    public String getFormatTime() {
+        return new SimpleDateFormat(DEFAULT_DATE_FORMAT).format(time.getTime());
     }
 
     @Override
