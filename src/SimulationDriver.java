@@ -5,6 +5,7 @@ import model.stations.BaseCarStation;
 import model.stations.CarFactory;
 import model.stations.XNCarStation;
 import model.timer.TimeModel;
+import view.BasicView;
 import view.TerminalView;
 
 public class SimulationDriver {
@@ -25,11 +26,19 @@ public class SimulationDriver {
                 carFactory, timeModel);
         BaseCarStation bjCarStation = new BJCarStation(carTrack, CarDirection.Forward, 0,
                 carFactory, timeModel);
+
+
         TerminalView terminalView = new TerminalView(timeModel, carTrack) {{
+            setCarStation(xnCarStation);
+            setCarStation(bjCarStation);
+        }};
+        BasicView basicView = new BasicView(timeModel, carTrack) {{
             setCarStation(xnCarStation);
             setCarStation(bjCarStation);
         }};
 
         timeModel.start();
+
+
     }
 }
