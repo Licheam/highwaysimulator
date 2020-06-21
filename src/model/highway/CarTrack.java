@@ -59,11 +59,13 @@ public class CarTrack implements TimeObserver, CarTrackObservable {
     }
 
     public void eraseReturnedCars() {
+        if (returnedCars.size()==0) {return;}
+
         for (CarPackage car : returnedCars) {
             cars.remove(car);
         }
-
         returnedCars.clear();
+
         notifyObservers();
     }
 
