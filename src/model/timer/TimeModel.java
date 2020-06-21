@@ -13,11 +13,13 @@ import static java.lang.Thread.sleep;
  */
 public class TimeModel implements TimeObservable {
     private static final String DEFAULT_DATE_FORMAT = "HH:mm";
-    private static final String DEFAULT_TIME = "07:30";
+    private static final String DEFAULT_START_TIME = "07:30";
+    private static final String DEFAULT_END_TIME = "18:00";
     private static final long DEFAULT_SIMULATED_TIME_GAP = 60000;
-//    private static final long DEFAULT_UPDATE_TIME_GAP = 1000;
+    //    private static final long DEFAULT_UPDATE_TIME_GAP = 1000;
     private static final long DEFAULT_UPDATE_TIME_GAP = 100;
     private long startTime;
+    private long endTime;
     private Time time;
     private boolean isToStop = false;
     private volatile boolean isRunning = false;
@@ -27,7 +29,7 @@ public class TimeModel implements TimeObservable {
     public long getStartTime() {
         try {
             return new SimpleDateFormat(DEFAULT_DATE_FORMAT)
-                    .parse(DEFAULT_TIME)
+                    .parse(DEFAULT_START_TIME)
                     .getTime();
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -48,6 +50,10 @@ public class TimeModel implements TimeObservable {
             }
             time.setTime(time.getTime() + DEFAULT_SIMULATED_TIME_GAP);
             notifyTimeObservers();
+
+            if (time.getTime() == endTime) {
+                isToStop = true;
+            }
         }
         isRunning = false;
     }
@@ -55,16 +61,20 @@ public class TimeModel implements TimeObservable {
     public void start() {
         try {
             start(new SimpleDateFormat(DEFAULT_DATE_FORMAT)
-                    .parse(DEFAULT_TIME)
-                    .getTime()
+                            .parse(DEFAULT_START_TIME)
+                            .getTime()
+                    , new SimpleDateFormat(DEFAULT_DATE_FORMAT)
+                            .parse(DEFAULT_END_TIME)
+                            .getTime()
             );
         } catch (Exception exception) {
             exception.printStackTrace();
         }
     }
 
-    private void start(long time) {
-        startTime = time;
+    private void start(long startTime, long endTime) {
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.time = new Time(startTime);
         isToStop = false;
         simulateTime();
@@ -76,7 +86,7 @@ public class TimeModel implements TimeObservable {
 
     public void restart() {
         reset();
-        start(startTime);
+        start(startTime, endTime);
     }
 
     public void reset() {
