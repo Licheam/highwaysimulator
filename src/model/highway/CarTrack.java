@@ -99,7 +99,7 @@ public class CarTrack implements TimeObserver, CarTrackObservable {
                         moveCar(car, timeGap);
                     }
                 } else {
-                    car.location += timeGap * car.car.getMaxSpeed();
+                    car.location -= timeGap * car.car.getMaxSpeed();
                 }
             }
         }

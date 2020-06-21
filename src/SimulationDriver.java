@@ -13,11 +13,13 @@ public class SimulationDriver {
         TimeModel timeModel = new TimeModel();
 
         CarTrack carTrack = new CarTrack(timeModel) {{
+            addStation("BJ", 0);
             addStation("GZ", 24);
             addStation("CP", 45);
             addStation("WG", 107);
             addStation("XP", 128);
             addStation("XY", 152);
+            addStation("XN", 174);
         }};
 
         CarFactory carFactory = new CarFactory();
@@ -25,7 +27,6 @@ public class SimulationDriver {
                 carFactory, timeModel);
         BaseCarStation BJCarStation = new BJCarStation(carTrack, CarDirection.Forward, 0,
                 carFactory, timeModel);
-
         TerminalView terminalView = new TerminalView(timeModel, carTrack) {{
             setCarStation(XNCarStation);
             setCarStation(BJCarStation);
