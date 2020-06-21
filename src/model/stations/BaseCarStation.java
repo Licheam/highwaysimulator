@@ -61,7 +61,7 @@ public abstract class BaseCarStation implements CarStationObservable, TimeObserv
         timeModel.registerObserver(this);
         track.setTerminalStations(this);
         track.addStation(this.toString(), location);
-        currentTime = 0;
+        currentTime = timeModel.getStartTime();
         passengersArrivedPerMin = 3;
     }
 

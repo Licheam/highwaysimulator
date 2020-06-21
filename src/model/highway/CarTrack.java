@@ -33,7 +33,7 @@ public class CarTrack implements TimeObserver, CarTrackObservable {
     public CarTrack(TimeModel timeModel) {
         this.timeModel = timeModel;
         timeModel.registerObserver(this);
-        currentTime = 0;
+        currentTime = timeModel.getStartTime();
     }
 
     public void setTerminalStations(BaseCarStation carStation) {

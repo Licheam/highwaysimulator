@@ -13,7 +13,7 @@ import static java.lang.Thread.sleep;
  */
 public class TimeModel implements TimeObservable {
     private static final String DEFAULT_DATE_FORMAT = "HH:mm";
-    private static final String DEFAULT_TIME = "08:00";
+    private static final String DEFAULT_TIME = "07:30";
     private static final long DEFAULT_SIMULATED_TIME_GAP = 60000;
 //    private static final long DEFAULT_UPDATE_TIME_GAP = 1000;
     private static final long DEFAULT_UPDATE_TIME_GAP = 100;
@@ -23,6 +23,18 @@ public class TimeModel implements TimeObservable {
     private volatile boolean isRunning = false;
     ArrayList<TimeObserver> timeObservers = new ArrayList<>();
 
+
+    public long getStartTime() {
+        try {
+            return new SimpleDateFormat(DEFAULT_DATE_FORMAT)
+                    .parse(DEFAULT_TIME)
+                    .getTime();
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+
+        return startTime;
+    }
 
     @SuppressWarnings("BusyWait")
     private void simulateTime() {
@@ -85,6 +97,7 @@ public class TimeModel implements TimeObservable {
     public String getFormatTime() {
         return new SimpleDateFormat(DEFAULT_DATE_FORMAT).format(time.getTime());
     }
+
 
     @Override
     public void registerObserver(TimeObserver timeObserver) {
