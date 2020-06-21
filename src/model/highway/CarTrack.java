@@ -64,6 +64,7 @@ public class CarTrack implements TimeObserver, CarTrackObservable {
         }
 
         returnedCars.clear();
+        notifyObservers();
     }
 
     private void moveCar(CarPackage car, double timeGap) {
@@ -125,7 +126,6 @@ public class CarTrack implements TimeObserver, CarTrackObservable {
                     locationErrorException.printStackTrace();
                 }
             }
-
             eraseReturnedCars();
         }
     }
