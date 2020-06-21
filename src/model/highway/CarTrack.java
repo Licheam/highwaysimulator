@@ -25,6 +25,7 @@ public class CarTrack implements TimeObserver, CarTrackObservable {
     private final ArrayList<CarTrackObserver> carTrackObservers = new ArrayList<>();
     private TimeModel timeModel;
     private final ArrayList<CarPackage> cars = new ArrayList<>();
+    private final ArrayList<CarPackage> returnedCars = new ArrayList<>();
     private long currentTime;
     private final TreeMap<Double, String> stationsDistributions = new TreeMap<>();
     private BaseCarStation carInitialStation, carTerminalStation;
@@ -54,8 +55,15 @@ public class CarTrack implements TimeObserver, CarTrackObservable {
 
     public void returnCar(BaseCarStation carStation, CarPackage car) {
         carStation.returnCar(car.car);
-        cars.remove(car);
-        notifyObservers();
+        returnedCars.add(car);
+    }
+
+    public void eraseReturnedCars() {
+        for (CarPackage car : returnedCars) {
+            cars.remove(car);
+        }
+
+        returnedCars.clear();
     }
 
     private void moveCar(CarPackage car, double timeGap) {
@@ -93,7 +101,7 @@ public class CarTrack implements TimeObserver, CarTrackObservable {
                     car.location = nextStation.getKey();
                     car.isPullingOff = true;
                     car.car.notifyCarInStationObservers(nextStation.getValue());
-                    if (nextStation.getValue().equals(carTerminalStation.toString())) {
+                    if (nextStation.getValue().equals(carInitialStation.toString())) {
                         returnCar(carInitialStation, car);
                     } else {
                         moveCar(car, timeGap);
@@ -117,6 +125,8 @@ public class CarTrack implements TimeObserver, CarTrackObservable {
                     locationErrorException.printStackTrace();
                 }
             }
+
+            eraseReturnedCars();
         }
     }
 

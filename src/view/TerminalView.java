@@ -1,7 +1,6 @@
 package view;
 
 import enumerates.CarDirection;
-import enumerates.CarType;
 import exceptions.LocationErrorException;
 import model.cars.BaseCar;
 import model.highway.CarPositionObserver;
@@ -43,22 +42,22 @@ public class TerminalView implements TimeObserver, CarStationObserver, CarTrackO
             throws LocationErrorException {
         Map.Entry<Double, String> locationDetails = car.getTrack().getLocationDetails(location, direction);
 
-        System.out.println("第" + car.getID() + "号" + car.toString());
-        if (locationDetails.getKey() > 0) {
-            System.out.print("当前位置: " + locationDetails.getValue() + "站以东 ");
-            System.out.printf("%.2f 公里。\n", Math.abs(locationDetails.getKey()));
-        } else if (locationDetails.getKey() < 0) {
-            System.out.print("当前位置: " + locationDetails.getValue() + "站以西 ");
-            System.out.printf("%.2f 公里。\n", Math.abs(locationDetails.getKey()));
-        } else {
-            System.out.println("当前位置: " + locationDetails.getValue() + "站中。");
-        }
-
-        if (direction.equals(CarDirection.Forward)) {
-            System.out.println("方向为东");
-        } else if (direction.equals(CarDirection.Backward)) {
-            System.out.println("方向为西");
-        }
+//        System.out.println("第" + car.getID() + "号" + car.toString());
+//        if (locationDetails.getKey() > 0) {
+//            System.out.print("当前位置: " + locationDetails.getValue() + "站以东 ");
+//            System.out.printf("%.2f 公里。\n", Math.abs(locationDetails.getKey()));
+//        } else if (locationDetails.getKey() < 0) {
+//            System.out.print("当前位置: " + locationDetails.getValue() + "站以西 ");
+//            System.out.printf("%.2f 公里。\n", Math.abs(locationDetails.getKey()));
+//        } else {
+//            System.out.println("当前位置: " + locationDetails.getValue() + "站中。");
+//        }
+//
+//        if (direction.equals(CarDirection.Forward)) {
+//            System.out.println("方向为东");
+//        } else if (direction.equals(CarDirection.Backward)) {
+//            System.out.println("方向为西");
+//        }
     }
 
     @Override
@@ -70,16 +69,16 @@ public class TerminalView implements TimeObserver, CarStationObserver, CarTrackO
 
     @Override
     public void updateCarPassenger(BaseCar car) {
-        System.out.println("第" + car.getID() + "号" + car.toString() + "当前乘客数目："
-                + car.getNumberOfPassengers());
+//        System.out.println("第" + car.getID() + "号" + car.toString() + "当前乘客数目："
+//                + car.getNumberOfPassengers());
     }
 
     @Override
     public void updateCarStation(BaseCarStation carStation) {
-        System.out.println("车站：" + carStation.toString());
-        System.out.println("候车乘客数目：" + carStation.getNumberOfPassengers());
-        System.out.println("待发Volve数目：" + carStation.getNumberOfCars(CarType.Volve));
-        System.out.println("待发Iveco数目：" + carStation.getNumberOfCars(CarType.Iveco));
+//        System.out.println("车站：" + carStation.toString());
+//        System.out.println("候车乘客数目：" + carStation.getNumberOfPassengers());
+//        System.out.println("待发Volve数目：" + carStation.getNumberOfCars(CarType.Volve));
+//        System.out.println("待发Iveco数目：" + carStation.getNumberOfCars(CarType.Iveco));
     }
 
     @Override
