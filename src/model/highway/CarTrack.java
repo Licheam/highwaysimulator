@@ -36,6 +36,10 @@ public class CarTrack implements TimeObserver, CarTrackObservable {
         currentTime = timeModel.getStartTime();
     }
 
+    public TreeMap<Double, String> getStationsDistributions() {
+        return stationsDistributions;
+    }
+
     public void setTerminalStations(BaseCarStation carStation) {
         if (carStation.getLocation() == 0) {
             carInitialStation = carStation;

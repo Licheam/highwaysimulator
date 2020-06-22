@@ -16,5 +16,14 @@ public class VolveCar extends BaseCar {
     public String toString() {
         return "Volve";
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof VolveCar) {
+            return this.ID == ((VolveCar) obj).getID();
+        }
+        return false;
+    }
+
 }
 

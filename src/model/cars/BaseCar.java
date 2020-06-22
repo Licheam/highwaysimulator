@@ -132,6 +132,19 @@ public abstract class BaseCar implements CarObservable {
             inStationObserver.updateCarInStation(this, carStation);
         }
     }
+
+    @Override
+    public int hashCode() {
+        return getID();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof BaseCar) {
+            return getID() == ((BaseCar) obj).getID();
+        }
+        return false;
+    }
 }
 
 
