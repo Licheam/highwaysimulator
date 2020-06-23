@@ -6,6 +6,15 @@ import model.cars.IvecoCar;
 import model.cars.VolveCar;
 import model.highway.CarTrack;
 
+
+
+/**
+ * @author wangmengxi
+ *
+ * This is the factory of cars.
+ * In order to distribute ID for each Cars.
+ *
+ */
 public class CarFactory {
     private int countingVolve = 0;
     private int countingIveco = 0;

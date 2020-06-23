@@ -2,6 +2,13 @@ package model.cars;
 
 import model.highway.CarTrack;
 
+/**
+ * @author wangmengxi
+ *
+ * It's a prototype of VolveCar
+ * It's used to set special constance for Iveco,
+ * also to Override the toString function.
+ */
 public class VolveCar extends BaseCar {
 
     public VolveCar(CarTrack track, int ID) {

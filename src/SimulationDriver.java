@@ -8,6 +8,11 @@ import model.timer.TimeModel;
 import view.AnimationView;
 import view.BasicView;
 
+/**
+ * @author wangmengxi
+ *
+ * Simulation Driver is the starter for everything.
+ */
 public class SimulationDriver {
 
     public static void main(String[] args) {

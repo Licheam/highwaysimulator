@@ -18,6 +18,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * @author wangmengxi
+ *
+ * AnimationView can display the animation of the simulation.
+ */
 public class AnimationView implements CarPositionObserver {
     private static final int FRAME_WIDTH = 2000;
     private static final int FRAME_HEIGHT = 300;
@@ -101,6 +106,9 @@ public class AnimationView implements CarPositionObserver {
     }
 }
 
+/**
+ * CarFrame is a JFrame to display the detail information of a single car.
+ */
 class CarFrame extends JFrame implements CarPassengerObserver, CarPositionObserver {
     private static final int FRAME_WIDTH = 200;
     private static final int FRAME_HEIGHT = 200;

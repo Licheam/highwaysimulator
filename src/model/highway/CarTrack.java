@@ -15,11 +15,12 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * CarTrack is to present a highway in our simulation.
- * <p>
- * It contains packed model.cars with location etc., and the model.stations information.
- * It also preform the simulation of model.cars.
- * It fetches the time from TimeModel.
+ * @author wangmengxi
+ *
+ * CarTrack is the highway.
+ *
+ * It is Observable for CarTrackObserver.
+ * And it simulate the movement of the cars along the way.
  */
 public class CarTrack implements TimeObserver, CarTrackObservable {
     private final ArrayList<CarTrackObserver> carTrackObservers = new ArrayList<>();
@@ -199,6 +200,26 @@ public class CarTrack implements TimeObserver, CarTrackObservable {
         for (CarTrackObserver carTrackObserver : carTrackObservers) {
             carTrackObserver.updateCarTrack(this);
         }
+    }
+}
+
+/**
+ * A Package that includes the specific information of a car on track.
+ * Specially created for CarTrack.
+ */
+class CarPackage {
+    public BaseCar car;
+    public CarDirection direction;
+    public double location;
+    public boolean isPullingOff;
+    public double pullingOffTime;
+
+    public CarPackage(BaseCar car, CarDirection direction, double location) {
+        this.car = car;
+        this.direction = direction;
+        this.location = location;
+        isPullingOff = false;
+        pullingOffTime = 0;
     }
 }
 
