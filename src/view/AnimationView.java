@@ -5,10 +5,15 @@ import exceptions.LocationErrorException;
 import model.cars.BaseCar;
 import model.highway.CarPositionObserver;
 import model.highway.CarTrack;
-import model.stations.*;
-import model.timer.TimeModel;
+import model.passengers.CarPassengerObserver;
+import model.stations.CarStationObservable;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -28,14 +33,28 @@ public class AnimationView implements CarPositionObserver {
     class CarButton {
         private JButton button;
         private BaseCar car;
+        private CarFrame frame;
 
         public CarButton(BaseCar car) {
             this.car = car;
             button = new JButton("第" + car.getID() + "号" + car.toString());
+            button.addActionListener(new ButtonListener());
         }
 
         public JButton getButton() {
             return button;
+        }
+
+        class ButtonListener implements ActionListener {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (frame == null) {
+                    frame = new CarFrame(car);
+                } else {
+                    frame.reset();
+                }
+            }
         }
     }
 
@@ -60,32 +79,8 @@ public class AnimationView implements CarPositionObserver {
         carStation.registerAllCars(this);
     }
 
-    public static void main(String[] args) {
-        TimeModel timeModel = new TimeModel();
-
-        CarTrack carTrack = new CarTrack(timeModel) {{
-            addStation("GZ", 24);
-            addStation("CP", 45);
-            addStation("WG", 107);
-            addStation("XP", 128);
-            addStation("XY", 152);
-        }};
-
-        CarFactory carFactory = new CarFactory();
-        BaseCarStation xnCarStation = new XNCarStation(carTrack, CarDirection.Backward, 174,
-                carFactory, timeModel);
-        BaseCarStation bjCarStation = new BJCarStation(carTrack, CarDirection.Forward, 0,
-                carFactory, timeModel);
-
-        AnimationView animationView = new AnimationView(carTrack);
-    }
-
     @Override
-    public void updateCarPosition(BaseCar car, double location, CarDirection direction) throws LocationErrorException {
-        if (location < stationsDistributions.firstKey() || location > stationsDistributions.lastKey()) {
-            throw new LocationErrorException();
-        }
-
+    public void updateCarPosition(BaseCar car, double location, CarDirection direction) {
         Map.Entry<BaseCar, CarButton> carEntry;
         if (cars.containsKey(car)) {
             carEntry = Map.entry(car, cars.get(car));
@@ -107,3 +102,77 @@ public class AnimationView implements CarPositionObserver {
     }
 }
 
+class CarFrame extends JFrame implements CarPassengerObserver, CarPositionObserver {
+    private static final int FRAME_WIDTH = 200;
+    private static final int FRAME_HEIGHT = 200;
+
+    BaseCar car;
+    JLabel identityLabel;
+    JLabel positionLabel;
+    JLabel passengerLabel;
+
+    public CarFrame(BaseCar car) {
+        this.car = car;
+        reset();
+    }
+
+    public void reset() {
+        if (positionLabel == null) {
+            positionLabel = new JLabel("当前位置: 无");
+            getContentPane().add(BorderLayout.CENTER, positionLabel);
+        } else {
+            positionLabel.setText("当前位置: 无");
+        }
+
+        if (passengerLabel == null) {
+            passengerLabel = new JLabel("当前乘客个数: 无");
+            getContentPane().add(BorderLayout.SOUTH, passengerLabel);
+        } else {
+            passengerLabel.setText("当前乘客个数: " + car.getNumberOfPassengers());
+        }
+
+        if (identityLabel == null) {
+            identityLabel = new JLabel("第" + car.getID() + "号" + car.toString());
+            getContentPane().add(BorderLayout.NORTH, identityLabel);
+        } else {
+            identityLabel.setText("第" + car.getID() + "号" + car.toString());
+        }
+
+        car.registerObserver((CarPositionObserver) this);
+        car.registerObserver((CarPassengerObserver) this);
+
+        addWindowListener(new FrameTerminater());
+
+        setSize(FRAME_WIDTH, FRAME_HEIGHT);
+        setVisible(true);
+    }
+
+    @Override
+    public void updateCarPassenger(BaseCar car) {
+        passengerLabel.setText("当前乘客个数: " + car.getNumberOfPassengers());
+    }
+
+    @Override
+    public void updateCarPosition(BaseCar car, double location, CarDirection direction) throws LocationErrorException {
+        Map.Entry<Double, String> locationDetails = car.getTrack().getLocationDetails(location, direction);
+        if (locationDetails.getKey() > 0) {
+            positionLabel.setText("当前位置: " + locationDetails.getValue() + "站以东 "
+                    + (((int) (Math.abs(locationDetails.getKey()) * 100)) / 100) + "公里");
+        } else if (locationDetails.getKey() < 0) {
+            positionLabel.setText("当前位置: " + locationDetails.getValue() + "站以西 "
+                    + (((int) (Math.abs(locationDetails.getKey()) * 100)) / 100) + "公里");
+        } else {
+            positionLabel.setText("当前位置: " + locationDetails.getValue() + "站中");
+        }
+    }
+
+    class FrameTerminater extends WindowAdapter {
+
+        @Override
+        public void windowClosing(WindowEvent e) {
+            CarFrame.this.car.removeObserver((CarPositionObserver) CarFrame.this);
+            CarFrame.this.car.removeObserver((CarPassengerObserver) CarFrame.this);
+            CarFrame.this.dispose();
+        }
+    }
+}
