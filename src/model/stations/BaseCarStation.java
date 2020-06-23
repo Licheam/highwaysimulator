@@ -21,6 +21,14 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
 
+/**
+ * @author wangmengxi
+ *
+ * BaseCarStation is a prototype for all the Terminal Station
+ * like BJCarStation and XNCarStation.
+ *
+ * It is obserable for passengers and cars.
+ */
 public abstract class BaseCarStation implements CarStationObservable, TimeObserver {
 
     protected static final String DEFAULT_DATE_FORMAT = "HH:mm";

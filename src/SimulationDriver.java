@@ -7,8 +7,12 @@ import model.stations.XNCarStation;
 import model.timer.TimeModel;
 import view.AnimationView;
 import view.BasicView;
-import view.TerminalView;
 
+/**
+ * @author wangmengxi
+ *
+ * Simulation Driver is the starter for everything.
+ */
 public class SimulationDriver {
 
     public static void main(String[] args) {
@@ -29,10 +33,11 @@ public class SimulationDriver {
                 carFactory, timeModel);
 
 
-        TerminalView terminalView = new TerminalView(timeModel, carTrack) {{
-            setCarStation(xnCarStation);
-            setCarStation(bjCarStation);
-        }};
+//        TerminalView terminalView = new TerminalView(timeModel, carTrack) {{
+//            setCarStation(xnCarStation);
+//            setCarStation(bjCarStation);
+//        }};
+
         BasicView basicView = new BasicView(timeModel, carTrack) {{
             setCarStation(xnCarStation);
             setCarStation(bjCarStation);

@@ -18,9 +18,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * @author wangmengxi
+ *
+ * AnimationView can display the animation of the simulation.
+ */
 public class AnimationView implements CarPositionObserver {
     private static final int FRAME_WIDTH = 2000;
-    private static final int FRAME_HEIGHT = 500;
+    private static final int FRAME_HEIGHT = 300;
     private static final int LABEL_WIDTH = 100;
     private static final int LABEL_HEIGHT = 50;
     private static final int BUTTON_WIDTH = 100;
@@ -67,7 +72,7 @@ public class AnimationView implements CarPositionObserver {
         double stationLength = stationsDistributions.lastKey() - stationsDistributions.firstKey();
         for (Map.Entry<Double, String> station : stationsDistributions.entrySet()) {
             JLabel stationLabel = new JLabel(station.getValue());
-            stationLabel.setBounds(FRAME_WIDTH / 10 + (int) (FRAME_WIDTH * 4.0 / 5.0 * (station.getKey() / stationLength))
+            stationLabel.setBounds(FRAME_WIDTH / 20 + (int) (FRAME_WIDTH * 4.0 / 5.0 * (station.getKey() / stationLength))
                     , FRAME_HEIGHT / 10 + (int) (FRAME_HEIGHT * 4.0 / 5.0 * 2.0 / 3.0), LABEL_WIDTH, LABEL_HEIGHT);
             frame.getContentPane().add(stationLabel);
         }
@@ -90,10 +95,10 @@ public class AnimationView implements CarPositionObserver {
 
         double stationLength = stationsDistributions.lastKey() - stationsDistributions.firstKey();
         if (direction == CarDirection.Forward) {
-            carEntry.getValue().getButton().setBounds(FRAME_WIDTH / 10 + (int) (FRAME_WIDTH * 4.0 / 5.0 * (location / stationLength))
+            carEntry.getValue().getButton().setBounds(FRAME_WIDTH / 20 + (int) (FRAME_WIDTH * 4.0 / 5.0 * (location / stationLength))
                     , FRAME_HEIGHT / 10 + (int) (FRAME_HEIGHT * 4.0 / 5.0 * 1.0 / 3.0), BUTTON_WIDTH, BUTTON_HEIGHT);
         } else if (direction == CarDirection.Backward) {
-            carEntry.getValue().getButton().setBounds(FRAME_WIDTH / 10 + (int) (FRAME_WIDTH * 4.0 / 5.0 * (location / stationLength))
+            carEntry.getValue().getButton().setBounds(FRAME_WIDTH / 20 + (int) (FRAME_WIDTH * 4.0 / 5.0 * (location / stationLength))
                     , FRAME_HEIGHT / 10, BUTTON_WIDTH, BUTTON_HEIGHT);
         }
 
@@ -101,6 +106,9 @@ public class AnimationView implements CarPositionObserver {
     }
 }
 
+/**
+ * CarFrame is a JFrame to display the detail information of a single car.
+ */
 class CarFrame extends JFrame implements CarPassengerObserver, CarPositionObserver {
     private static final int FRAME_WIDTH = 200;
     private static final int FRAME_HEIGHT = 200;
@@ -117,25 +125,22 @@ class CarFrame extends JFrame implements CarPassengerObserver, CarPositionObserv
 
     public void reset() {
         if (positionLabel == null) {
-            positionLabel = new JLabel("当前位置: 无");
+            positionLabel = new JLabel();
             getContentPane().add(BorderLayout.CENTER, positionLabel);
-        } else {
-            positionLabel.setText("当前位置: 无");
         }
+        positionLabel.setText("当前位置: ");
 
         if (passengerLabel == null) {
-            passengerLabel = new JLabel("当前乘客个数: 无");
+            passengerLabel = new JLabel();
             getContentPane().add(BorderLayout.SOUTH, passengerLabel);
-        } else {
-            passengerLabel.setText("当前乘客个数: " + car.getNumberOfPassengers());
         }
+        passengerLabel.setText("当前乘客个数: " + car.getNumberOfPassengers());
 
         if (identityLabel == null) {
-            identityLabel = new JLabel("第" + car.getID() + "号" + car.toString());
+            identityLabel = new JLabel();
             getContentPane().add(BorderLayout.NORTH, identityLabel);
-        } else {
-            identityLabel.setText("第" + car.getID() + "号" + car.toString());
         }
+        identityLabel.setText("第" + car.getID() + "号" + car.toString());
 
         car.registerObserver((CarPositionObserver) this);
         car.registerObserver((CarPassengerObserver) this);

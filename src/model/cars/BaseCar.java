@@ -10,6 +10,18 @@ import model.passengers.Passenger;
 
 import java.util.ArrayList;
 
+
+
+/**
+ * @author wangmengxi
+ * It's a super class of all kinds of cars
+ *
+ * It includes the basic imformation of the Car.
+ * Also, it is observable for CarPositionObserver, CarPassengerObserver, CarInStationObserver.
+ *
+ * However, it does not comtain any position information of a car.
+ *
+ */
 public abstract class BaseCar implements CarObservable {
     protected int ID;
     private CarTrack track;
@@ -18,7 +30,6 @@ public abstract class BaseCar implements CarObservable {
     private final ArrayList<CarInStationObserver> inStationObservers = new ArrayList<>();
     private final ArrayList<CarInStationObserver> removedInStationObservers = new ArrayList<>();
     private double speed = 0;
-    private String currentLocation;
     private final ArrayList<Passenger> passengers = new ArrayList<>();
 
     protected double MAX_SPEED = 0;
@@ -59,14 +70,6 @@ public abstract class BaseCar implements CarObservable {
 
     public void setSpeed(double speed) {
         this.speed = speed;
-    }
-
-    public void setCurrentLocation(String currentLocation) {
-        this.currentLocation = currentLocation;
-    }
-
-    public String getLocation() {
-        return currentLocation;
     }
 
     public int getNumberOfPassengers() {
