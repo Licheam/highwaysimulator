@@ -1,5 +1,6 @@
 package model.passengers;
 
+import enumerates.CarDirection;
 import model.cars.BaseCar;
 
 import java.util.ArrayList;
@@ -14,13 +15,14 @@ import java.util.Random;
 public class Passenger implements CarInStationObserver {
     private String boardingStation;
     private String getOffStation;
-    private static int P_GZ;
-    private static int P_CP;
-    private static int P_WG;
-    private static int P_XP;
-    private static int P_XY;
-    private static int P_EndStation;
-    private static final ArrayList<String> CARSTATION = new ArrayList<>(){{
+    private CarDirection direction;
+    private int P_GZ;
+    private int P_CP;
+    private int P_WG;
+    private int P_XP;
+    private int P_XY;
+    private int P_EndStation;
+    private static final ArrayList<String> CAR_STATION = new ArrayList<>() {{
         add("GZ");
         add("CP");
         add("WG");
@@ -33,12 +35,24 @@ public class Passenger implements CarInStationObserver {
     public Passenger(String boardingStation) {
         this.boardingStation = boardingStation;
         P_GZ = P_CP = P_WG = P_XP = P_XY = P_EndStation = 20;
-        getOffStation = getGetOffStation();
+        if ("BJ".equals(this.boardingStation)) {
+            direction = CarDirection.Forward;
+        } else {
+            direction = CarDirection.Backward;
+        }
+
+        this.getOffStation = getGetOffStation(direction);
     }
 
-    private String getGetOffStation() {
+    private String getGetOffStation(CarDirection direction) {
         Random r = new Random();
-        double random = r.nextDouble() * 120;
+        double random = r.nextLong() * 120;
+        double bias = r.nextDouble() * 2.5;
+        if (direction == CarDirection.Backward) {
+            bias = -bias;
+        }
+
+        modifyProbability(bias);
 
         if (random < P_GZ) {
             getOffStation = "GZ";
@@ -50,8 +64,8 @@ public class Passenger implements CarInStationObserver {
             getOffStation = "XP";
         } else if (random < P_GZ + P_CP + P_WG + P_XP + P_XY) {
             getOffStation = "XY";
-        } else if (random < P_GZ + P_CP + P_WG + P_XP + P_XY + P_EndStation) {
-            if ("BJ".equals(this.boardingStation)) {
+        } else if (random <= P_GZ + P_CP + P_WG + P_XP + P_XY + P_EndStation) {
+            if (direction == CarDirection.Forward) {
                 getOffStation = "XN";
             } else {
                 getOffStation = "BJ";
@@ -61,8 +75,17 @@ public class Passenger implements CarInStationObserver {
         return getOffStation;
     }
 
+    private void modifyProbability(double bias) {
+        P_GZ -= bias * 3;
+        P_CP -= bias * 2;
+        P_XP += bias * 0.5;
+        P_XY += bias * 1.5;
+        P_EndStation += bias * 3;
+    }
+
+
     public void changeProbability(String station, int probability) {
-        assert CARSTATION.contains(station);
+        assert CAR_STATION.contains(station);
         assert probability <= 120;
 
         switch (station) {
