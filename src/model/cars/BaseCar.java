@@ -16,6 +16,7 @@ public abstract class BaseCar implements CarObservable {
     private final ArrayList<CarPositionObserver> positionObservers = new ArrayList<>();
     private final ArrayList<CarPassengerObserver> passengerObservers = new ArrayList<>();
     private final ArrayList<CarInStationObserver> inStationObservers = new ArrayList<>();
+    private final ArrayList<CarInStationObserver> removedInStationObservers = new ArrayList<>();
     private double speed = 0;
     private String currentLocation;
     private final ArrayList<Passenger> passengers = new ArrayList<>();
@@ -74,12 +75,21 @@ public abstract class BaseCar implements CarObservable {
 
     public void addPassenger(Passenger passenger) {
         passengers.add(passenger);
+        registerObserver(passenger);
         notifyPassengerObservers();
     }
 
     public void removePassenger(Passenger passenger) {
         passengers.remove(passenger);
-        notifyPassengerObservers();
+        removedInStationObservers.add(passenger);
+    }
+
+    public void clearRemovedObservers() {
+        for (CarInStationObserver inStationObserver : removedInStationObservers) {
+            inStationObservers.remove(inStationObserver);
+        }
+
+        removedInStationObservers.clear();
     }
 
     @Override
@@ -131,6 +141,8 @@ public abstract class BaseCar implements CarObservable {
         for (CarInStationObserver inStationObserver : inStationObservers) {
             inStationObserver.updateCarInStation(this, carStation);
         }
+        clearRemovedObservers();
+        notifyPassengerObservers();
     }
 
     @Override

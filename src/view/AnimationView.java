@@ -69,7 +69,6 @@ public class AnimationView implements CarPositionObserver {
             JLabel stationLabel = new JLabel(station.getValue());
             stationLabel.setBounds(FRAME_WIDTH / 10 + (int) (FRAME_WIDTH * 4.0 / 5.0 * (station.getKey() / stationLength))
                     , FRAME_HEIGHT / 10 + (int) (FRAME_HEIGHT * 4.0 / 5.0 * 2.0 / 3.0), LABEL_WIDTH, LABEL_HEIGHT);
-            System.out.println(stationLabel.getX() + ", " + stationLabel.getY());
             frame.getContentPane().add(stationLabel);
         }
         frame.setVisible(true);

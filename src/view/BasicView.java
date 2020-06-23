@@ -26,7 +26,7 @@ public class BasicView implements TimeObserver, CarStationObserver, CarTrackObse
 
         JFrame frame = new JFrame("BasicView");
         frame.setContentPane(this.mainPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setSize(300, 200);
         frame.setVisible(true);
@@ -39,7 +39,7 @@ public class BasicView implements TimeObserver, CarStationObserver, CarTrackObse
     public static void main(String[] args) {
         JFrame frame = new JFrame("BasicView");
         frame.setContentPane(new BasicView().mainPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
     }
