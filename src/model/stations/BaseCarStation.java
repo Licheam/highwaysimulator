@@ -23,10 +23,10 @@ import java.util.Random;
 
 /**
  * @author wangmengxi
- *
+ * <p>
  * BaseCarStation is a prototype for all the Terminal Station
  * like BJCarStation and XNCarStation.
- *
+ * <p>
  * It is obserable for passengers and cars.
  */
 public abstract class BaseCarStation implements CarStationObservable, TimeObserver {
@@ -182,7 +182,7 @@ public abstract class BaseCarStation implements CarStationObservable, TimeObserv
             for (int i = 1; i <= (double) timeGap / 60000; i++) {
                 Random random = new Random();
                 for (int j = 0; j < random.nextInt(passengersArrivedPerMin + 1); j++) {
-                    passengers.add(new Passenger(this.toString()));
+                    passengers.add(new Passenger(this.toString(), location, track));
                 }
             }
             notifyCarStationObservers();

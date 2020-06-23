@@ -16,7 +16,7 @@ public class TimeModel implements TimeObservable {
     private static final String DEFAULT_START_TIME = "07:30";
     private static final String DEFAULT_END_TIME = "18:00";
     private static final long DEFAULT_SIMULATED_TIME_GAP = 60000;
-    private static final long DEFAULT_UPDATE_TIME_GAP = 1000;
+    private static final long DEFAULT_UPDATE_TIME_GAP = 100;
     private long startTime;
     private long endTime;
     private Time time;
