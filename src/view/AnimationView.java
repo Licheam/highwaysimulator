@@ -20,16 +20,16 @@ import java.util.TreeMap;
 
 /**
  * @author wangmengxi
- *
+ * <p>
  * AnimationView can display the animation of the simulation.
  */
 public class AnimationView implements CarPositionObserver {
-    private static final int FRAME_WIDTH = 2000;
-    private static final int FRAME_HEIGHT = 300;
+    private static final int FRAME_WIDTH = 1200;
+    private static final int FRAME_HEIGHT = 250;
     private static final int LABEL_WIDTH = 100;
     private static final int LABEL_HEIGHT = 50;
     private static final int BUTTON_WIDTH = 100;
-    private static final int BUTTON_HEIGHT = 50;
+    private static final int BUTTON_HEIGHT = 30;
     private final JFrame frame;
 
     private final TreeMap<Double, String> stationsDistributions;
@@ -42,6 +42,7 @@ public class AnimationView implements CarPositionObserver {
 
         public CarButton(BaseCar car) {
             this.car = car;
+//            button = new JButton("<html>第" + car.getID() + "号<br/>" + car.toString() + "</html>");
             button = new JButton("第" + car.getID() + "号" + car.toString());
             button.addActionListener(new ButtonListener());
         }
@@ -65,9 +66,9 @@ public class AnimationView implements CarPositionObserver {
 
     public AnimationView(CarTrack track) {
         frame = new JFrame("Animation View");
-        frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
+        frame.setBounds(0, FRAME_HEIGHT, FRAME_WIDTH, FRAME_HEIGHT);
         frame.setLayout(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         stationsDistributions = track.getStationsDistributions();
         double stationLength = stationsDistributions.lastKey() - stationsDistributions.firstKey();
         for (Map.Entry<Double, String> station : stationsDistributions.entrySet()) {
@@ -111,7 +112,7 @@ public class AnimationView implements CarPositionObserver {
  */
 class CarFrame extends JFrame implements CarPassengerObserver, CarPositionObserver {
     private static final int FRAME_WIDTH = 200;
-    private static final int FRAME_HEIGHT = 200;
+    private static final int FRAME_HEIGHT = 100;
 
     BaseCar car;
     JLabel identityLabel;
@@ -120,6 +121,7 @@ class CarFrame extends JFrame implements CarPassengerObserver, CarPositionObserv
 
     public CarFrame(BaseCar car) {
         this.car = car;
+        setTitle("Detailed View");
         reset();
     }
 

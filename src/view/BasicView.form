@@ -36,6 +36,12 @@
           <text value=""/>
         </properties>
       </component>
+      <component id="d3e00" class="javax.swing.JButton" binding="switchButton">
+        <constraints border-constraint="Center"/>
+        <properties>
+          <text value="开始模拟"/>
+        </properties>
+      </component>
     </children>
   </grid>
 </form>

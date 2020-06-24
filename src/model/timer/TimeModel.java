@@ -11,18 +11,20 @@ import static java.lang.Thread.sleep;
  * <p>
  * it contains a series of methods interface that handel operations of starting, pausing, reseting time.
  */
-public class TimeModel implements TimeObservable {
+public class TimeModel implements TimeObservable, TimerStateObservable {
     private static final String DEFAULT_DATE_FORMAT = "HH:mm";
     private static final String DEFAULT_START_TIME = "07:30";
     private static final String DEFAULT_END_TIME = "18:00";
-    private static final long DEFAULT_SIMULATED_TIME_GAP = 60000;
-    private static final long DEFAULT_UPDATE_TIME_GAP = 100;
+    private long simulatedTimeGap = 60000;
+    private long updateTimeGap = 100;
     private long startTime;
     private long endTime;
     private Time time;
     private boolean isToStop = false;
-    private volatile boolean isRunning = false;
-    ArrayList<TimeObserver> timeObservers = new ArrayList<>();
+    private boolean paused = false;
+    private volatile boolean running = false;
+    private final ArrayList<TimeObserver> timeObservers = new ArrayList<>();
+    private final ArrayList<TimerStateObserver> timerStateObservers = new ArrayList<>();
 
 
     public long getStartTime() {
@@ -37,24 +39,43 @@ public class TimeModel implements TimeObservable {
         return startTime;
     }
 
+    public boolean isRunning() {
+        return running;
+    }
+
+    public boolean isPaused() {
+        return paused;
+    }
+
+    private void setRunning(boolean running) {
+        this.running = running;
+        notifyTimerStateObservers();
+    }
+
+    private void setPaused(boolean paused) {
+        this.paused = paused;
+        notifyTimerStateObservers();
+    }
+
     @SuppressWarnings("BusyWait")
     private void simulateTime() {
-        isRunning = true;
+        setRunning(true);
         notifyTimeObservers();
         while (!isToStop) {
             try {
-                sleep(DEFAULT_UPDATE_TIME_GAP);
+                sleep(updateTimeGap);
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
-            time.setTime(time.getTime() + DEFAULT_SIMULATED_TIME_GAP);
+            time.setTime(time.getTime() + simulatedTimeGap);
             notifyTimeObservers();
 
             if (time.getTime() == endTime) {
                 isToStop = true;
+                reset();
             }
         }
-        isRunning = false;
+        setRunning(false);
     }
 
     public void start() {
@@ -76,11 +97,28 @@ public class TimeModel implements TimeObservable {
         this.endTime = endTime;
         this.time = new Time(startTime);
         isToStop = false;
+        setPaused(false);
         simulateTime();
     }
 
-    public void pause() {
-        isToStop = true;
+    class SwitchStateRunnable implements Runnable {
+        @Override
+        public void run() {
+            if (running) {
+                isToStop = true;
+                setPaused(true);
+            } else if (paused) {
+                isToStop = false;
+                setPaused(false);
+                simulateTime();
+            } else {
+                start();
+            }
+        }
+    }
+
+    public void switchState() {
+        new Thread(new SwitchStateRunnable()).start();
     }
 
     public void restart() {
@@ -91,7 +129,7 @@ public class TimeModel implements TimeObservable {
     public void reset() {
         if (!isToStop) {
             isToStop = true;
-            while (isRunning) {
+            while (running) {
                 Thread.onSpinWait();
             }
         }
@@ -122,6 +160,23 @@ public class TimeModel implements TimeObservable {
     public void notifyTimeObservers() {
         for (TimeObserver timeObserver : timeObservers) {
             timeObserver.updateTime(this);
+        }
+    }
+
+    @Override
+    public void registerObserver(TimerStateObserver timerStatesObserver) {
+        timerStateObservers.add(timerStatesObserver);
+    }
+
+    @Override
+    public void removeObserver(TimerStateObserver timerStateObserver) {
+        timerStateObservers.remove(timerStateObserver);
+    }
+
+    @Override
+    public void notifyTimerStateObservers() {
+        for (TimerStateObserver timerStateObserver : timerStateObservers) {
+            timerStateObserver.updateTimerState();
         }
     }
 }
