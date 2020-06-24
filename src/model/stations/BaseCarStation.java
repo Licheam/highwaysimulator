@@ -43,8 +43,8 @@ public abstract class BaseCarStation implements CarStationObservable, TimeObserv
     protected TimeModel timeModel;
     protected long currentTime;
     protected final Queue<Passenger> passengers = new LinkedList<>();
-    protected int passengersArrivedPerMin;
 
+    protected int MAX_PASSENGERS_ARRIVED_PER_MIN;
     protected int DEFAULT_NUMBER_OF_VOLVE;
     protected int DEFAULT_NUMBER_OF_IVECO;
     protected String DEFAULT_BEGIN_TIME_OF_VOLVE_FORMAT;
@@ -70,7 +70,7 @@ public abstract class BaseCarStation implements CarStationObservable, TimeObserv
         track.setTerminalStations(this);
         track.addStation(this.toString(), location);
         currentTime = timeModel.getStartTime();
-        passengersArrivedPerMin = 3;
+        MAX_PASSENGERS_ARRIVED_PER_MIN = 2;
     }
 
     public double getLocation() {
@@ -180,8 +180,8 @@ public abstract class BaseCarStation implements CarStationObservable, TimeObserv
             throw new TimeErrorException();
         } else {
             for (int i = 1; i <= (double) timeGap / 60000; i++) {
-                Random random = new Random();
-                for (int j = 0; j < random.nextInt(passengersArrivedPerMin + 1); j++) {
+                int passengersArrivedPerMin = (new Random()).nextInt(MAX_PASSENGERS_ARRIVED_PER_MIN + 1);
+                for (int j = 1; j <= passengersArrivedPerMin; j++) {
                     passengers.add(new Passenger(this.toString(), location, track));
                 }
             }
