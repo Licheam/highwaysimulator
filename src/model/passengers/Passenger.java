@@ -22,19 +22,19 @@ public class Passenger implements CarInStationObserver {
         this.boardingStation = boardingStation;
         stationsDistributions = track.getStationsDistributions();
         int sumOfDistances = 0;
-        double lengthOfTrack = 2*(stationsDistributions.lastKey() - stationsDistributions.firstKey());
+        double lengthOfTrack = 2 * (stationsDistributions.lastKey() - stationsDistributions.firstKey());
         for (Map.Entry<Double, String> station : stationsDistributions.entrySet()) {
             if (!station.getValue().equals(boardingStation)) {
                 sumOfDistances += (lengthOfTrack - Math.abs(location - station.getKey())) * 100;
             }
         }
 
-        int randomValue = (int) ((new Random()).nextDouble() * sumOfDistances);
+        int randomValue = (new Random()).nextInt(sumOfDistances);
         sumOfDistances = 0;
         for (Map.Entry<Double, String> station : stationsDistributions.entrySet()) {
             if (!station.getValue().equals(boardingStation)) {
                 sumOfDistances += (lengthOfTrack - Math.abs(location - station.getKey())) * 100;
-                if (randomValue <= sumOfDistances) {
+                if (randomValue < sumOfDistances) {
                     destination = station.getValue();
                     break;
                 }
