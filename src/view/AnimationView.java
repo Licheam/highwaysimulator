@@ -2,11 +2,11 @@ package view;
 
 import enumerates.CarDirection;
 import exceptions.LocationErrorException;
-import model.cars.BaseCar;
-import model.highway.CarPositionObserver;
-import model.highway.CarTrack;
-import model.passengers.CarPassengerObserver;
-import model.stations.CarStationObservable;
+import model.components.cars.BaseCar;
+import model.components.highway.CarPositionObserver;
+import model.components.highway.CarTrack;
+import model.components.passengers.CarPassengerObserver;
+import model.components.stations.CarStationObservable;
 
 import javax.swing.*;
 import java.awt.*;

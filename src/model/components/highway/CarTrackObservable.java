@@ -1,4 +1,4 @@
-package model.highway;
+package model.components.highway;
 
 public interface CarTrackObservable {
     void registerObserver(CarTrackObserver carTrackObserver);

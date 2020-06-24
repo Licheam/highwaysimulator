@@ -1,12 +1,12 @@
-package model.cars;
+package model.components.cars;
 
 import enumerates.CarDirection;
 import exceptions.LocationErrorException;
-import model.highway.CarPositionObserver;
-import model.highway.CarTrack;
-import model.passengers.CarInStationObserver;
-import model.passengers.CarPassengerObserver;
-import model.passengers.Passenger;
+import model.components.highway.CarPositionObserver;
+import model.components.highway.CarTrack;
+import model.components.passengers.CarInStationObserver;
+import model.components.passengers.CarPassengerObserver;
+import model.components.passengers.Passenger;
 
 import java.util.ArrayList;
 

@@ -1,6 +1,6 @@
-package model.cars;
+package model.components.cars;
 
-import model.highway.CarTrack;
+import model.components.highway.CarTrack;
 
 /**
  * @author wangmengxi

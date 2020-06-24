@@ -1,12 +1,12 @@
-package model.highway;
+package model.components.highway;
 
 import enumerates.CarDirection;
 import exceptions.LocationErrorException;
 import exceptions.TimeErrorException;
-import model.cars.BaseCar;
-import model.cars.IvecoCar;
-import model.cars.VolveCar;
-import model.stations.BaseCarStation;
+import model.components.cars.BaseCar;
+import model.components.cars.IvecoCar;
+import model.components.cars.VolveCar;
+import model.components.stations.BaseCarStation;
 import model.timer.TimeModel;
 import model.timer.TimeObserver;
 

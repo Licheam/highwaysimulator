@@ -1,9 +1,9 @@
 package view;
 
 import enumerates.CarType;
-import model.highway.CarTrack;
-import model.highway.CarTrackObserver;
-import model.stations.*;
+import model.components.highway.CarTrack;
+import model.components.highway.CarTrackObserver;
+import model.components.stations.*;
 import model.timer.TimeModel;
 import model.timer.TimeObserver;
 

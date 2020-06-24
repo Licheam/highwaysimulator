@@ -1,17 +1,17 @@
-package model.stations;
+package model.components.stations;
 
 import enumerates.CarDirection;
 import enumerates.CarType;
-import model.cars.IvecoCar;
-import model.cars.VolveCar;
-import model.highway.CarTrack;
+import model.components.cars.IvecoCar;
+import model.components.cars.VolveCar;
+import model.components.highway.CarTrack;
 import model.timer.TimeModel;
 
 import java.text.SimpleDateFormat;
 
-public class BJCarStation extends BaseCarStation {
+public class XNCarStation extends BaseCarStation {
 
-    public BJCarStation(CarTrack track, CarDirection direction, double location,
+    public XNCarStation(CarTrack track, CarDirection direction, double location,
                         CarFactory carFactory, TimeModel timeModel) {
         super(track, direction, location, carFactory, timeModel);
 
@@ -48,8 +48,9 @@ public class BJCarStation extends BaseCarStation {
         }
     }
 
+
     @Override
     public String toString() {
-        return "BJ";
+        return "XN";
     }
 }

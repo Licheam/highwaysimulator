@@ -1,18 +1,18 @@
-package model.stations;
+package model.components.stations;
 
 import enumerates.CarDirection;
 import enumerates.CarType;
 import exceptions.OverDepartException;
 import exceptions.TimeErrorException;
-import model.cars.BaseCar;
-import model.cars.CarObserver;
-import model.cars.IvecoCar;
-import model.cars.VolveCar;
-import model.highway.CarPositionObserver;
-import model.highway.CarTrack;
-import model.passengers.CarInStationObserver;
-import model.passengers.CarPassengerObserver;
-import model.passengers.Passenger;
+import model.components.cars.BaseCar;
+import model.components.cars.CarObserver;
+import model.components.cars.IvecoCar;
+import model.components.cars.VolveCar;
+import model.components.highway.CarPositionObserver;
+import model.components.highway.CarTrack;
+import model.components.passengers.CarInStationObserver;
+import model.components.passengers.CarPassengerObserver;
+import model.components.passengers.Passenger;
 import model.timer.TimeModel;
 import model.timer.TimeObserver;
 

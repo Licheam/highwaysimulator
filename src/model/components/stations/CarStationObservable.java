@@ -1,6 +1,6 @@
-package model.stations;
+package model.components.stations;
 
-import model.cars.CarObserver;
+import model.components.cars.CarObserver;
 
 public interface CarStationObservable {
     void registerObserver(CarStationObserver carStationObserver);

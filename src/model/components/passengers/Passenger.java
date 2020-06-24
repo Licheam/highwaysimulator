@@ -1,7 +1,7 @@
-package model.passengers;
+package model.components.passengers;
 
-import model.cars.BaseCar;
-import model.highway.CarTrack;
+import model.components.cars.BaseCar;
+import model.components.highway.CarTrack;
 
 import java.util.Map;
 import java.util.Random;

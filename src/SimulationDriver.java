@@ -1,9 +1,9 @@
 import enumerates.CarDirection;
-import model.highway.CarTrack;
-import model.stations.BJCarStation;
-import model.stations.BaseCarStation;
-import model.stations.CarFactory;
-import model.stations.XNCarStation;
+import model.components.highway.CarTrack;
+import model.components.stations.BJCarStation;
+import model.components.stations.BaseCarStation;
+import model.components.stations.CarFactory;
+import model.components.stations.XNCarStation;
 import model.timer.TimeModel;
 import view.AnimationView;
 import view.BasicView;

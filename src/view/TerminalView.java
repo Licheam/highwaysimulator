@@ -3,14 +3,14 @@ package view;
 import enumerates.CarDirection;
 import enumerates.CarType;
 import exceptions.LocationErrorException;
-import model.cars.BaseCar;
-import model.highway.CarPositionObserver;
-import model.highway.CarTrack;
-import model.highway.CarTrackObserver;
-import model.passengers.CarPassengerObserver;
-import model.stations.BaseCarStation;
-import model.stations.CarStationObservable;
-import model.stations.CarStationObserver;
+import model.components.cars.BaseCar;
+import model.components.highway.CarPositionObserver;
+import model.components.highway.CarTrack;
+import model.components.highway.CarTrackObserver;
+import model.components.passengers.CarPassengerObserver;
+import model.components.stations.BaseCarStation;
+import model.components.stations.CarStationObservable;
+import model.components.stations.CarStationObserver;
 import model.timer.TimeModel;
 import model.timer.TimeObserver;
 
@@ -19,8 +19,8 @@ import java.util.Map;
 /**
  * view.View is a class that demonstrate the data
  * <p>
- * it includes time, model.cars and model.passengers in the XNCarStation and BJCarStation,
- * model.cars in the CarTrack.
+ * it includes time, model.components.cars and model.components.passengers in the XNCarStation and BJCarStation,
+ * model.components.cars in the CarTrack.
  */
 public class TerminalView implements TimeObserver, CarStationObserver, CarTrackObserver,
         CarPassengerObserver, CarPositionObserver {

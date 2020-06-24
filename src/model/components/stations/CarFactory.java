@@ -1,10 +1,10 @@
-package model.stations;
+package model.components.stations;
 
 import enumerates.CarType;
-import model.cars.BaseCar;
-import model.cars.IvecoCar;
-import model.cars.VolveCar;
-import model.highway.CarTrack;
+import model.components.cars.BaseCar;
+import model.components.cars.IvecoCar;
+import model.components.cars.VolveCar;
+import model.components.highway.CarTrack;
 
 
 

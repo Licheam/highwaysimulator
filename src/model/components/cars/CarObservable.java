@@ -1,10 +1,10 @@
-package model.cars;
+package model.components.cars;
 
 import enumerates.CarDirection;
 import exceptions.LocationErrorException;
-import model.highway.CarPositionObserver;
-import model.passengers.CarInStationObserver;
-import model.passengers.CarPassengerObserver;
+import model.components.highway.CarPositionObserver;
+import model.components.passengers.CarInStationObserver;
+import model.components.passengers.CarPassengerObserver;
 
 public interface CarObservable {
     void registerObserver(CarPositionObserver positionObserver);
