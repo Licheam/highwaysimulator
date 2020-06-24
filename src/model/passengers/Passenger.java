@@ -17,12 +17,13 @@ public class Passenger implements CarInStationObserver {
     private String boardingStation;
     private String destination;
     private TreeMap<Double, String> stationsDistributions;
+    private final int DISTANCE_WEIGHT_FACTOR = 2;
 
     public Passenger(String boardingStation, Double location, CarTrack track) {
         this.boardingStation = boardingStation;
         stationsDistributions = track.getStationsDistributions();
         int sumOfDistances = 0;
-        double lengthOfTrack = 2 * (stationsDistributions.lastKey() - stationsDistributions.firstKey());
+        double lengthOfTrack = DISTANCE_WEIGHT_FACTOR * (stationsDistributions.lastKey() - stationsDistributions.firstKey());
         for (Map.Entry<Double, String> station : stationsDistributions.entrySet()) {
             if (!station.getValue().equals(boardingStation)) {
                 sumOfDistances += (lengthOfTrack - Math.abs(location - station.getKey())) * 100;
