@@ -201,25 +201,27 @@ public class CarTrack implements TimeObserver, CarTrackObservable {
             carTrackObserver.updateCarTrack(this);
         }
     }
-}
 
-/**
- * A Package that includes the specific information of a car on track.
- * Specially created for CarTrack.
- */
-class CarPackage {
-    public BaseCar car;
-    public CarDirection direction;
-    public double location;
-    public boolean isPullingOff;
-    public double pullingOffTime;
+    /**
+     * A Package that includes the specific information of a car on track.
+     * Specially created for CarTrack.
+     */
+    protected class CarPackage {
+        public BaseCar car;
+        public CarDirection direction;
+        public double location;
+        public boolean isPullingOff;
+        public double pullingOffTime;
 
-    public CarPackage(BaseCar car, CarDirection direction, double location) {
-        this.car = car;
-        this.direction = direction;
-        this.location = location;
-        isPullingOff = false;
-        pullingOffTime = 0;
+        public CarPackage(BaseCar car, CarDirection direction, double location) {
+            this.car = car;
+            this.direction = direction;
+            this.location = location;
+            isPullingOff = false;
+            pullingOffTime = 0;
+        }
     }
 }
+
+
 

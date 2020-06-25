@@ -104,80 +104,80 @@ public class AnimationView implements CarPositionObserver {
 
         cars.put(carEntry.getKey(), carEntry.getValue());
     }
-}
 
-/**
- * CarFrame is a JFrame to display the detail information of a single car.
- */
-class CarFrame extends JFrame implements CarPassengerObserver, CarPositionObserver {
-    private static final int FRAME_WIDTH = 200;
-    private static final int FRAME_HEIGHT = 100;
+    /**
+     * CarFrame is a JFrame to display the detail information of a single car.
+     */
+    class CarFrame extends JFrame implements CarPassengerObserver, CarPositionObserver {
+        private static final int FRAME_WIDTH = 200;
+        private static final int FRAME_HEIGHT = 100;
 
-    BaseCar car;
-    JLabel identityLabel;
-    JLabel positionLabel;
-    JLabel passengerLabel;
+        BaseCar car;
+        JLabel identityLabel;
+        JLabel positionLabel;
+        JLabel passengerLabel;
 
-    public CarFrame(BaseCar car) {
-        this.car = car;
-        setTitle("Detailed View");
-        reset();
-    }
-
-    public void reset() {
-        if (positionLabel == null) {
-            positionLabel = new JLabel();
-            getContentPane().add(BorderLayout.CENTER, positionLabel);
+        public CarFrame(BaseCar car) {
+            this.car = car;
+            setTitle("Detailed View");
+            reset();
         }
-        positionLabel.setText("当前位置: ");
 
-        if (passengerLabel == null) {
-            passengerLabel = new JLabel();
-            getContentPane().add(BorderLayout.SOUTH, passengerLabel);
+        public void reset() {
+            if (positionLabel == null) {
+                positionLabel = new JLabel();
+                getContentPane().add(BorderLayout.CENTER, positionLabel);
+            }
+            positionLabel.setText("当前位置: ");
+
+            if (passengerLabel == null) {
+                passengerLabel = new JLabel();
+                getContentPane().add(BorderLayout.SOUTH, passengerLabel);
+            }
+            passengerLabel.setText("当前乘客个数: " + car.getNumberOfPassengers());
+
+            if (identityLabel == null) {
+                identityLabel = new JLabel();
+                getContentPane().add(BorderLayout.NORTH, identityLabel);
+            }
+            identityLabel.setText("第" + car.getID() + "号" + car.toString());
+
+            car.registerObserver((CarPositionObserver) this);
+            car.registerObserver((CarPassengerObserver) this);
+
+            addWindowListener(new FrameTerminater());
+
+            setSize(FRAME_WIDTH, FRAME_HEIGHT);
+            setVisible(true);
         }
-        passengerLabel.setText("当前乘客个数: " + car.getNumberOfPassengers());
-
-        if (identityLabel == null) {
-            identityLabel = new JLabel();
-            getContentPane().add(BorderLayout.NORTH, identityLabel);
-        }
-        identityLabel.setText("第" + car.getID() + "号" + car.toString());
-
-        car.registerObserver((CarPositionObserver) this);
-        car.registerObserver((CarPassengerObserver) this);
-
-        addWindowListener(new FrameTerminater());
-
-        setSize(FRAME_WIDTH, FRAME_HEIGHT);
-        setVisible(true);
-    }
-
-    @Override
-    public void updateCarPassenger(BaseCar car) {
-        passengerLabel.setText("当前乘客个数: " + car.getNumberOfPassengers());
-    }
-
-    @Override
-    public void updateCarPosition(BaseCar car, double location, CarDirection direction) throws LocationErrorException {
-        Map.Entry<Double, String> locationDetails = car.getTrack().getLocationDetails(location, direction);
-        if (locationDetails.getKey() > 0) {
-            positionLabel.setText("当前位置: " + locationDetails.getValue() + "站以东 "
-                    + (((int) (Math.abs(locationDetails.getKey()) * 100)) / 100) + "公里");
-        } else if (locationDetails.getKey() < 0) {
-            positionLabel.setText("当前位置: " + locationDetails.getValue() + "站以西 "
-                    + (((int) (Math.abs(locationDetails.getKey()) * 100)) / 100) + "公里");
-        } else {
-            positionLabel.setText("当前位置: " + locationDetails.getValue() + "站中");
-        }
-    }
-
-    class FrameTerminater extends WindowAdapter {
 
         @Override
-        public void windowClosing(WindowEvent e) {
-            CarFrame.this.car.removeObserver((CarPositionObserver) CarFrame.this);
-            CarFrame.this.car.removeObserver((CarPassengerObserver) CarFrame.this);
-            CarFrame.this.dispose();
+        public void updateCarPassenger(BaseCar car) {
+            passengerLabel.setText("当前乘客个数: " + car.getNumberOfPassengers());
+        }
+
+        @Override
+        public void updateCarPosition(BaseCar car, double location, CarDirection direction) throws LocationErrorException {
+            Map.Entry<Double, String> locationDetails = car.getTrack().getLocationDetails(location, direction);
+            if (locationDetails.getKey() > 0) {
+                positionLabel.setText("当前位置: " + locationDetails.getValue() + "站以东 "
+                        + (((int) (Math.abs(locationDetails.getKey()) * 100)) / 100) + "公里");
+            } else if (locationDetails.getKey() < 0) {
+                positionLabel.setText("当前位置: " + locationDetails.getValue() + "站以西 "
+                        + (((int) (Math.abs(locationDetails.getKey()) * 100)) / 100) + "公里");
+            } else {
+                positionLabel.setText("当前位置: " + locationDetails.getValue() + "站中");
+            }
+        }
+
+        class FrameTerminater extends WindowAdapter {
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                CarFrame.this.car.removeObserver((CarPositionObserver) CarFrame.this);
+                CarFrame.this.car.removeObserver((CarPassengerObserver) CarFrame.this);
+                CarFrame.this.dispose();
+            }
         }
     }
 }
