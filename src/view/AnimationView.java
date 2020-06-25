@@ -42,7 +42,6 @@ public class AnimationView implements CarPositionObserver {
 
         public CarButton(BaseCar car) {
             this.car = car;
-//            button = new JButton("<html>第" + car.getID() + "号<br/>" + car.toString() + "</html>");
             button = new JButton("第" + car.getID() + "号" + car.toString());
             button.addActionListener(new ButtonListener());
         }
@@ -73,7 +72,7 @@ public class AnimationView implements CarPositionObserver {
         double stationLength = stationsDistributions.lastKey() - stationsDistributions.firstKey();
         for (Map.Entry<Double, String> station : stationsDistributions.entrySet()) {
             JLabel stationLabel = new JLabel(station.getValue());
-            stationLabel.setBounds(FRAME_WIDTH / 20 + (int) (FRAME_WIDTH * 4.0 / 5.0 * (station.getKey() / stationLength))
+            stationLabel.setBounds((int) (FRAME_WIDTH / 40 + FRAME_WIDTH * 9.0 / 10.0 * (station.getKey() / stationLength))
                     , FRAME_HEIGHT / 10 + (int) (FRAME_HEIGHT * 4.0 / 5.0 * 2.0 / 3.0), LABEL_WIDTH, LABEL_HEIGHT);
             frame.getContentPane().add(stationLabel);
         }
@@ -96,10 +95,10 @@ public class AnimationView implements CarPositionObserver {
 
         double stationLength = stationsDistributions.lastKey() - stationsDistributions.firstKey();
         if (direction == CarDirection.Forward) {
-            carEntry.getValue().getButton().setBounds(FRAME_WIDTH / 20 + (int) (FRAME_WIDTH * 4.0 / 5.0 * (location / stationLength))
+            carEntry.getValue().getButton().setBounds(FRAME_WIDTH / 40 + (int) (FRAME_WIDTH * 9.0 / 10.0 * (location / stationLength))
                     , FRAME_HEIGHT / 10 + (int) (FRAME_HEIGHT * 4.0 / 5.0 * 1.0 / 3.0), BUTTON_WIDTH, BUTTON_HEIGHT);
         } else if (direction == CarDirection.Backward) {
-            carEntry.getValue().getButton().setBounds(FRAME_WIDTH / 20 + (int) (FRAME_WIDTH * 4.0 / 5.0 * (location / stationLength))
+            carEntry.getValue().getButton().setBounds(FRAME_WIDTH / 40 + (int) (FRAME_WIDTH * 9.0 / 10.0 * (location / stationLength))
                     , FRAME_HEIGHT / 10, BUTTON_WIDTH, BUTTON_HEIGHT);
         }
 
