@@ -35,34 +35,6 @@ public class AnimationView implements CarPositionObserver {
     private final TreeMap<Double, String> stationsDistributions;
     private final Map<BaseCar, CarButton> cars = new HashMap<>();
 
-    class CarButton {
-        private JButton button;
-        private BaseCar car;
-        private CarFrame frame;
-
-        public CarButton(BaseCar car) {
-            this.car = car;
-            button = new JButton("第" + car.getID() + "号" + car.toString());
-            button.addActionListener(new ButtonListener());
-        }
-
-        public JButton getButton() {
-            return button;
-        }
-
-        class ButtonListener implements ActionListener {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (frame == null) {
-                    frame = new CarFrame(car);
-                } else {
-                    frame.reset();
-                }
-            }
-        }
-    }
-
     public AnimationView(CarTrack track) {
         frame = new JFrame("Animation View");
         frame.setBounds(0, FRAME_HEIGHT, FRAME_WIDTH, FRAME_HEIGHT);
@@ -105,10 +77,38 @@ public class AnimationView implements CarPositionObserver {
         cars.put(carEntry.getKey(), carEntry.getValue());
     }
 
+    protected class CarButton {
+        private JButton button;
+        private BaseCar car;
+        private CarFrame frame;
+
+        public CarButton(BaseCar car) {
+            this.car = car;
+            button = new JButton("第" + car.getID() + "号" + car.toString());
+            button.addActionListener(new ButtonListener());
+        }
+
+        public JButton getButton() {
+            return button;
+        }
+
+        class ButtonListener implements ActionListener {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (frame == null) {
+                    frame = new CarFrame(car);
+                } else {
+                    frame.reset();
+                }
+            }
+        }
+    }
+
     /**
      * CarFrame is a JFrame to display the detail information of a single car.
      */
-    class CarFrame extends JFrame implements CarPassengerObserver, CarPositionObserver {
+    protected class CarFrame extends JFrame implements CarPassengerObserver, CarPositionObserver {
         private static final int FRAME_WIDTH = 200;
         private static final int FRAME_HEIGHT = 100;
 
