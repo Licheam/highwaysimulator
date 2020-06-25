@@ -39,10 +39,10 @@ public class TimerController implements TimerControllerInterface {
                 carFactory, timeModel);
 
 
-        terminalView = new TerminalView(timeModel, carTrack) {{
-            setCarStation(xnCarStation);
-            setCarStation(bjCarStation);
-        }};
+//        terminalView = new TerminalView(timeModel, carTrack) {{
+//            setCarStation(xnCarStation);
+//            setCarStation(bjCarStation);
+//        }};
 
         basicView = new BasicView(this, timeModel, carTrack) {{
             setCarStation(xnCarStation);
