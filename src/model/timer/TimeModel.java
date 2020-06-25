@@ -16,7 +16,7 @@ public class TimeModel implements TimeObservable, TimerStateObservable {
     private static final String DEFAULT_START_TIME = "07:30";
     private static final String DEFAULT_END_TIME = "18:00";
     private long simulatedTimeGap = 60000;
-    private long updateTimeGap = 100;
+    private long updateTimeGap = 1000;
     private long startTime;
     private long endTime;
     private Time time;
