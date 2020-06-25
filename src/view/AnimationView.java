@@ -26,7 +26,7 @@ import java.util.TreeMap;
 public class AnimationView implements CarPositionObserver {
     private static final int FRAME_WIDTH = 1200;
     private static final int FRAME_HEIGHT = 250;
-    private static final int LABEL_WIDTH = 100;
+    private static final int LABEL_WIDTH = 110;
     private static final int LABEL_HEIGHT = 50;
     private static final int BUTTON_WIDTH = 100;
     private static final int BUTTON_HEIGHT = 30;
