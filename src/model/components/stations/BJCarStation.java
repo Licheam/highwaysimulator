@@ -15,7 +15,7 @@ public class BJCarStation extends BaseCarStation {
                         CarFactory carFactory, TimeModel timeModel) {
         super(track, direction, location, carFactory, timeModel);
 
-        DEFAULT_NUMBER_OF_VOLVE = 5;
+        DEFAULT_NUMBER_OF_VOLVE = 4;
         DEFAULT_NUMBER_OF_IVECO = 12;
         DEFAULT_BEGIN_TIME_OF_VOLVE_FORMAT = "8:30";
         DEFAULT_BEGIN_TIME_OF_IVECO_FORMAT = "8:00";

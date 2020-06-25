@@ -132,9 +132,12 @@ public abstract class BaseCarStation implements CarStationObservable, TimeObserv
             throw new OverDepartException();
         }
 
+        if (carToDepart == null) {
+            throw new OverDepartException();
+        }
+
         notifyCarStationObservers();
 
-        assert carToDepart != null;
         int passengersToBoard = Math.min(carToDepart.getMaxPassengers(), passengers.size());
 
         for (int i = 1; i <= passengersToBoard; i++) {
